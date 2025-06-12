@@ -1771,6 +1771,29 @@
           padding: 50px 20px 20px 20px;
         }
       }
+
+      /* =====================  Footer Styles  ===================== */
+      .site-footer {
+        position: relative;
+        z-index: 20;
+
+        /* --- new styles below --- */
+        background: rgba(29, 53, 87, 0.82);   /* navy with ~18 % transparency */
+        backdrop-filter: blur(8px);           /* subtle glass-effect */
+        border-top: 3px solid #457B9D;        /* ties into palette */
+        /* --- unchanged styles --- */
+        text-align: center;
+        padding: 40px 20px;
+        font-size: 0.9rem;
+        color: #fff;
+      }
+      .site-footer a {
+        color: #A8DADC;
+        text-decoration: underline;
+      }
+      .site-footer a:hover {
+        color: #F1FAEE;
+      }
     </style>
 </head>
 <body>
@@ -3172,5 +3195,12 @@
             }
         }
     </script>
+    <footer class="site-footer">
+      © 2025 Past 5 Solutions Inc. •
+      <a href="https://github.com/past5/future-of-canada"
+        target="_blank" rel="noopener">
+        GitHub Repo
+      </a>
+    </footer>
 </body>
 </html>
