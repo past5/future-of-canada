@@ -1,0 +1,45 @@
+{
+  "provinces": {
+    "Ontario": 380,
+    "Alberta": 117,
+    "British Columbia": 139,
+    "Manitoba": 33,
+    "New Brunswick": 29,
+    "Quebec": 222,
+    "Saskatchewan": 39,
+    "Nova Scotia": 32,
+    "Prince Edward Island": 3,
+    "Newfoundland and Labrador": 6,
+    "Nunavut": 1
+  },
+  "urban_rural": {
+    "Urban (big city or downtown area)": 394,
+    "Rural (small town, village, or countryside)": 233,
+    "Suburban (residential area near a city)": 369,
+    "Remote or Northern community": 5
+  },
+  "generations": {
+    "Millennial (born ~1981–1996)": 307,
+    "Gen Z (born ~1997–2012)": 91,
+    "Gen X (born ~1965–1980)": 247,
+    "Silent Generation (born before 1946)": 22,
+    "Boomer (born ~1946–1964)": 334
+  },
+  "tenure": {
+    "Less than 5 years": 14,
+    "All my life": 833,
+    "5–10 years": 22,
+    "20+ years": 103,
+    "11–20 years": 29
+  },
+  "diversity_metrics": {
+    "provinces_diversity": 1.7333393375030974,
+    "provinces_balance": 0.7228586490686355,
+    "urban_rural_diversity": 1.1006575074297866,
+    "urban_rural_balance": 0.7939565638430803,
+    "generations_diversity": 1.3759142015155061,
+    "generations_balance": 0.8549035603582776,
+    "tenure_diversity": 0.633099009714085,
+    "tenure_balance": 0.39336653177045605
+  }
+}

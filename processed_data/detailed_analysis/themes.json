@@ -1,0 +1,123 @@
+{
+  "theme_scores": {
+    "opportunity": 32,
+    "economy": 122,
+    "unity": 166,
+    "healthcare": 25,
+    "government": 41,
+    "values": 128,
+    "community": 27,
+    "geography": 11,
+    "climate": 18,
+    "heritage": 5,
+    "challenges": 4,
+    "diversity": 16,
+    "reconciliation": 13,
+    "education": 6
+  },
+  "theme_sentiment": {
+    "opportunity": {
+      "positive": 0.0,
+      "negative": 0.03125,
+      "neutral": 0.96875
+    },
+    "economy": {
+      "positive": 0.0,
+      "negative": 0.0,
+      "neutral": 1.0
+    },
+    "unity": {
+      "positive": 0.006060606060606061,
+      "negative": 0.0,
+      "neutral": 0.9939393939393939
+    },
+    "healthcare": {
+      "positive": 0.0,
+      "negative": 0.1111111111111111,
+      "neutral": 0.8888888888888888
+    },
+    "government": {
+      "positive": 0.0,
+      "negative": 0.0,
+      "neutral": 1.0
+    },
+    "values": {
+      "positive": 0.0,
+      "negative": 0.007874015748031496,
+      "neutral": 0.9921259842519685
+    },
+    "community": {
+      "positive": 0.0,
+      "negative": 0.0,
+      "neutral": 1.0
+    },
+    "geography": {
+      "positive": 0.09090909090909091,
+      "negative": 0.0,
+      "neutral": 0.9090909090909091
+    },
+    "climate": {
+      "positive": 0.0,
+      "negative": 0.0,
+      "neutral": 1.0
+    },
+    "heritage": {
+      "positive": 0.0,
+      "negative": 0.2,
+      "neutral": 0.8
+    },
+    "challenges": {
+      "positive": 0.0,
+      "negative": 0.25,
+      "neutral": 0.75
+    },
+    "diversity": {
+      "positive": 0.0,
+      "negative": 0.0,
+      "neutral": 1.0
+    },
+    "reconciliation": {
+      "positive": 0.0,
+      "negative": 0.0,
+      "neutral": 1.0
+    },
+    "education": {
+      "positive": 0.0,
+      "negative": 0.16666666666666666,
+      "neutral": 0.8333333333333334
+    }
+  },
+  "question_theme_matrix": {
+    "future_hope": {
+      "opportunity": 25,
+      "economy": 96,
+      "unity": 158,
+      "healthcare": 22,
+      "values": 111,
+      "community": 23,
+      "government": 17,
+      "geography": 8,
+      "climate": 12,
+      "challenges": 1,
+      "diversity": 9,
+      "reconciliation": 13,
+      "heritage": 3,
+      "education": 4
+    },
+    "future_fear": {
+      "economy": 26,
+      "opportunity": 7,
+      "government": 24,
+      "unity": 8,
+      "values": 17,
+      "geography": 3,
+      "climate": 6,
+      "heritage": 2,
+      "challenges": 3,
+      "diversity": 7,
+      "education": 2,
+      "healthcare": 3,
+      "community": 4
+    }
+  }
+}

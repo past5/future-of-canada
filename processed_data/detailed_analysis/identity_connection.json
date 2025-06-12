@@ -1,0 +1,27 @@
+{
+  "connection_levels": {
+    "Very connected": 512,
+    "Somewhat connected": 297,
+    "A little connected": 104,
+    "Not at all connected": 35,
+    "Not very connected": 53
+  },
+  "average_connection_score": 4.196803196803197,
+  "connection_strength": "Strong",
+  "one_word_analysis": {
+    "top_words": {
+      "i'll type my answer instead📱": 997,
+      "sure - i'll record a video 🤳": 4
+    },
+    "sentiment_distribution": {
+      "positive": 0,
+      "negative": 0,
+      "neutral": 1001
+    },
+    "total_responses": 1001
+  },
+  "connection_themes": {
+    "theme_counts": {},
+    "total_analyzed": 1001
+  }
+}

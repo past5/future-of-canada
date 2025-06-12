@@ -1,0 +1,34 @@
+{
+  "strategies_counts": {
+    "Cultural celebration and exchange": 246,
+    "Newcomer integration and knowledge": 189,
+    "Honest dialogue and listening": 676,
+    "Collaborative community projects": 277,
+    "Educational transformation": 307,
+    "Indigenous-led reconciliation": 99,
+    "Other": 56
+  },
+  "strategy_percentages": {
+    "Cultural celebration and exchange": 24.575424575424577,
+    "Newcomer integration and knowledge": 18.88111888111888,
+    "Honest dialogue and listening": 67.53246753246754,
+    "Collaborative community projects": 27.672327672327672,
+    "Educational transformation": 30.66933066933067,
+    "Indigenous-led reconciliation": 9.89010989010989,
+    "Other": 5.594405594405594
+  },
+  "top_strategies": [
+    [
+      "Honest dialogue and listening",
+      676
+    ],
+    [
+      "Educational transformation",
+      307
+    ],
+    [
+      "Collaborative community projects",
+      277
+    ]
+  ]
+}

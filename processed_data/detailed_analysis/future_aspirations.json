@@ -1,0 +1,81 @@
+{
+  "hopes": {
+    "theme_counts": {
+      "prosperity": 101,
+      "unity": 147,
+      "healthcare": 14,
+      "democracy": 55,
+      "equality": 67,
+      "environment": 11,
+      "reconciliation": 13,
+      "education": 4,
+      "diversity": 5,
+      "technology": 3
+    },
+    "top_words": {
+      "unity": 92,
+      "prosperity": 66,
+      "peace": 55,
+      "freedom": 51,
+      "equality": 40,
+      "change": 22,
+      "equity": 18,
+      "united": 18,
+      "stability": 15,
+      "growth": 14,
+      "country": 13,
+      "independence": 13,
+      "economy": 12,
+      "reconciliation": 12,
+      "sovereignty": 12
+    },
+    "total_responses": 998
+  },
+  "fears": {
+    "theme_counts": {
+      "division": 116,
+      "technology": 2,
+      "unity": 8,
+      "decline": 23,
+      "democracy": 9,
+      "environment": 4,
+      "prosperity": 14,
+      "equality": 10,
+      "inequality": 7,
+      "extremism": 12,
+      "diversity": 3,
+      "education": 2,
+      "healthcare": 2
+    },
+    "top_words": {
+      "division": 88,
+      "trump": 55,
+      "separation": 31,
+      "usa": 30,
+      "annexation": 29,
+      "polarization": 26,
+      "liberals": 21,
+      "war": 19,
+      "america": 17,
+      "fascism": 16,
+      "economy": 14,
+      "debt": 13,
+      "state": 12,
+      "government": 11,
+      "conservatives": 10
+    },
+    "total_responses": 1000
+  },
+  "aspirations": {
+    "theme_counts": {},
+    "top_words": {
+      "type": 995,
+      "answer": 995,
+      "instead": 995,
+      "sure": 6,
+      "record": 6,
+      "video": 6
+    },
+    "total_responses": 1001
+  }
+}

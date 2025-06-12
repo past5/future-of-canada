@@ -1,0 +1,73 @@
+================================================================================
+CANADIAN IDENTITY SURVEY - COMPREHENSIVE ANALYSIS DASHBOARD
+================================================================================
+Analysis Date: 2025-06-06 16:27:51
+Data Source: Canadian Identity Survey responses
+
+📊 KEY METRICS
+---------------
+Total Responses: 1001
+Average Response Completeness: 49.2%
+Data Collection: Link(1001)
+
+🇨🇦 CANADIAN IDENTITY CONNECTION
+-----------------------------------
+Overall Connection Strength: Strong (4.20/5.0)
+Strong Connection Rate: 80.8% feel very/somewhat connected
+
+👥 DEMOGRAPHIC PROFILE
+----------------------
+Top Provinces: Ontario(380), Quebec(222), British Columbia(139)
+Generational Mix: Boomer (born ~1946–1964)(334), Millennial (born ~1981–1996)(307), Gen X (born ~1965–1980)(247)
+Settlement Pattern: 39.4% Urban, 23.3% Rural
+
+⭐ TOP VALUES FOR CANADA'S FUTURE
+-----------------------------------
+  1. Freedom and autonomy: 61.8% (619 responses)
+  2. Equitable systems: 46.5% (465 responses)
+  3. Technological innovation and adaptation: 40.3% (403 responses)
+  4. Community care networks: 36.9% (369 responses)
+  5. Environmental regeneration: 35.6% (356 responses)
+
+⚠️  MAJOR CONCERNS & DIVISIONS
+------------------------------
+  🔴 CRITICAL: Political polarization (61.5%)
+  🔴 CRITICAL: Economic inequality (47.1%)
+  🟠 MODERATE: Resource and regional tensions (32.5%)
+
+🤝 PREFERRED CONNECTION STRATEGIES
+-----------------------------------
+  1. Honest dialogue and listening: 67.5% (676 responses)
+  2. Educational transformation: 30.7% (307 responses)
+  3. Collaborative community projects: 27.7% (277 responses)
+
+🔮 FUTURE OUTLOOK
+-----------------
+Top Hope Themes: unity(147), prosperity(101), equality(67)
+Top Fear Themes: division(116), decline(23), prosperity(14)
+
+🎯 DOMINANT THEMES
+------------------
+  • Unity: 166 mentions
+  • Values: 128 mentions
+  • Economy: 122 mentions
+  • Government: 41 mentions
+  • Opportunity: 32 mentions
+
+💡 CRITICAL INSIGHTS
+--------------------
+  • Strong national identity foundation - majority feel connected to Canada
+  • Clear value consensus around 'Freedom and autonomy' as top priority
+  • CRITICAL: Political polarization is a major divisive issue (61.5% concerned)
+  • Good generational representation across age groups
+  • CONCERN: Future fears outweigh hopes - pessimistic outlook
+
+🎯 STRATEGIC RECOMMENDATIONS
+------------------------------
+  1. Align national policies with citizen priority: Freedom and autonomy
+  2. URGENT: Address political polarization through targeted programs
+  3. Implement honest dialogue and listening programs nationwide
+  4. Develop initiatives focused on unity to align with citizen aspirations
+  5. Develop initiatives focused on prosperity to align with citizen aspirations
+
+================================================================================

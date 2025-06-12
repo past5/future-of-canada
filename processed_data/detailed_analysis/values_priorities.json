@@ -1,0 +1,44 @@
+{
+  "values_counts": {
+    "Equitable systems": 465,
+    "Freedom and autonomy": 619,
+    "Embracing pluralism": 137,
+    "Community care networks": 369,
+    "Environmental regeneration": 356,
+    "Technological innovation and adaptation": 403,
+    "Indigenous reconciliation and rights": 290,
+    "Other": 87
+  },
+  "values_percentages": {
+    "Equitable systems": 46.45354645354645,
+    "Freedom and autonomy": 61.838161838161845,
+    "Embracing pluralism": 13.686313686313687,
+    "Community care networks": 36.863136863136866,
+    "Environmental regeneration": 35.56443556443556,
+    "Technological innovation and adaptation": 40.25974025974026,
+    "Indigenous reconciliation and rights": 28.97102897102897,
+    "Other": 8.691308691308691
+  },
+  "top_values": [
+    [
+      "Freedom and autonomy",
+      619
+    ],
+    [
+      "Equitable systems",
+      465
+    ],
+    [
+      "Technological innovation and adaptation",
+      403
+    ],
+    [
+      "Community care networks",
+      369
+    ],
+    [
+      "Environmental regeneration",
+      356
+    ]
+  ]
+}

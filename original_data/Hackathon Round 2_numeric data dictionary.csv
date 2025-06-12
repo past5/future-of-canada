@@ -1,0 +1,128 @@
+attribute_type,defined_by,value_type,data_point_label,code_value,text_value
+Identity,System,Uuid,participant_id,,
+Chat,System,String,distribution_type,,
+Chat,System,String,distribution_name,,
+Chat,System,String,engagement_id,,
+Chat,System,DateTime,engagement_started_PDT,,
+Chat,System,DateTime,engagement_completed_PDT,,
+Chat,System,SingleChoice,engagement_participation_status,1,Entered
+Chat,System,SingleChoice,engagement_participation_status,2,Incomplete
+Chat,System,SingleChoice,engagement_participation_status,3,Completed
+Chat,System,SingleChoice,engagement_participation_status,4,Disqualified
+Chat,System,SingleChoice,engagement_participation_status,5,OverQuota
+Chat,User,String,BrokerPanelId,,
+Chat,User,SingleChoice,Q1_province,1,Alberta
+Chat,User,SingleChoice,Q1_province,2,British Columbia
+Chat,User,SingleChoice,Q1_province,3,Manitoba
+Chat,User,SingleChoice,Q1_province,4,New Brunswick
+Chat,User,SingleChoice,Q1_province,5,Newfoundland and Labrador
+Chat,User,SingleChoice,Q1_province,6,Nova Scotia
+Chat,User,SingleChoice,Q1_province,7,Ontario
+Chat,User,SingleChoice,Q1_province,8,Prince Edward Island
+Chat,User,SingleChoice,Q1_province,9,Quebec
+Chat,User,SingleChoice,Q1_province,10,Saskatchewan
+Chat,User,SingleChoice,Q1_province,11,Northwest Territories
+Chat,User,SingleChoice,Q1_province,12,Nunavut
+Chat,User,SingleChoice,Q1_province,13,Yukon
+Chat,User,SingleChoice,Q1_province,14,I don't live in Canada 🚫
+Chat,User,SingleChoice,Q1a_urban_rural,1,Urban (big city or downtown area)
+Chat,User,SingleChoice,Q1a_urban_rural,2,Suburban (residential area near a city)
+Chat,User,SingleChoice,Q1a_urban_rural,3,"Rural (small town, village, or countryside)"
+Chat,User,SingleChoice,Q1a_urban_rural,4,Remote or Northern community
+Chat,User,SingleChoice,Q2_canadian_tenure,1,All my life
+Chat,User,SingleChoice,Q2_canadian_tenure,2,20+ years
+Chat,User,SingleChoice,Q2_canadian_tenure,3,11–20 years
+Chat,User,SingleChoice,Q2_canadian_tenure,4,5–10 years
+Chat,User,SingleChoice,Q2_canadian_tenure,5,Less than 5 years
+Chat,User,SingleChoice,Q3_generation,1,Gen Z (born ~1997–2012)
+Chat,User,SingleChoice,Q3_generation,2,Millennial (born ~1981–1996)
+Chat,User,SingleChoice,Q3_generation,3,Gen X (born ~1965–1980)
+Chat,User,SingleChoice,Q3_generation,4,Boomer (born ~1946–1964)
+Chat,User,SingleChoice,Q3_generation,5,Silent Generation (born before 1946)
+Chat,User,MultipleChoice,Q4_identity_top3,1,Heritage and ancestral connections
+Chat,User,MultipleChoice,Q4_identity_top3,2,Cultural and linguistic frameworks
+Chat,User,MultipleChoice,Q4_identity_top3,3,Regional landscape and place
+Chat,User,MultipleChoice,Q4_identity_top3,4,Community relationships and networks
+Chat,User,MultipleChoice,Q4_identity_top3,5,Work and creative contributions
+Chat,User,MultipleChoice,Q4_identity_top3,6,Belief systems and core values
+Chat,User,MultipleChoice,Q4_identity_top3,7,Personal passions and curiosities
+Chat,User,MultipleChoice,Q4_identity_top3,8,Other
+Chat,User,String,Q4_Other,,
+Chat,User,String,Q4_Other_sentiment,,
+Chat,User,Decimal,Q4_Other_sentiment_percentage,,
+Chat,User,SingleChoice,Q5_identity_connection,1,Very connected
+Chat,User,SingleChoice,Q5_identity_connection,2,Somewhat connected
+Chat,User,SingleChoice,Q5_identity_connection,3,A little connected
+Chat,User,SingleChoice,Q5_identity_connection,4,Not very connected
+Chat,User,SingleChoice,Q5_identity_connection,5,Not at all connected
+Chat,User,SingleChoice,Q5b_identity_connection_why,1,Sure - I'll record a video 🤳
+Chat,User,SingleChoice,Q5b_identity_connection_why,2,I'll type my answer instead📱
+Chat,User,String,Q5b_Video_transcription,,
+Chat,User,String,Q5b_Video_sentiment,,
+Chat,User,Decimal,Q5b_Video_sentiment_percentage,,
+Chat,User,String,Q5b_Text,,
+Chat,User,String,Q5b_Text_sentiment,,
+Chat,User,Decimal,Q5b_Text_sentiment_percentage,,
+Chat,User,SingleChoice,Q6_oneword,1,Sure - I'll record a video 🤳
+Chat,User,SingleChoice,Q6_oneword,2,I'll type my answer instead📱
+Chat,User,String,Q6_Video_transcription,,
+Chat,User,String,Q6_Video_sentiment,,
+Chat,User,Decimal,Q6_Video_sentiment_percentage,,
+Chat,User,String,Q6_Text,,
+Chat,User,String,Q6_Text_sentiment,,
+Chat,User,Decimal,Q6_Text_sentiment_percentage,,
+Chat,User,MultipleChoice,Q7_values,1,Equitable systems
+Chat,User,MultipleChoice,Q7_values,2,Freedom and autonomy
+Chat,User,MultipleChoice,Q7_values,3,Embracing pluralism
+Chat,User,MultipleChoice,Q7_values,4,Indigenous reconciliation and rights
+Chat,User,MultipleChoice,Q7_values,5,Environmental regeneration
+Chat,User,MultipleChoice,Q7_values,6,Technological innovation and adaptation
+Chat,User,MultipleChoice,Q7_values,7,Community care networks
+Chat,User,MultipleChoice,Q7_values,8,Other
+Chat,User,String,Q7_Other,,
+Chat,User,String,Q7_Other_sentiment,,
+Chat,User,Decimal,Q7_Other_sentiment_percentage,,
+Chat,User,SingleChoice,Q8_onesentance,1,Sure - I'll record a video 🤳
+Chat,User,SingleChoice,Q8_onesentance,2,I'll type my answer instead📱
+Chat,User,String,Q8_Video_transcription,,
+Chat,User,String,Q8_Video_sentiment,,
+Chat,User,Decimal,Q8_Video_sentiment_percentage,,
+Chat,User,String,Q8_Text,,
+Chat,User,String,Q8_Text_sentiment,,
+Chat,User,Decimal,Q8_Text_sentiment_percentage,,
+Chat,User,MultipleChoice,Q9_divisions,1,Resource and regional tensions
+Chat,User,MultipleChoice,Q9_divisions,2,Political polarization
+Chat,User,MultipleChoice,Q9_divisions,3,Urban/rural disconnection
+Chat,User,MultipleChoice,Q9_divisions,4,Generational perspectives
+Chat,User,MultipleChoice,Q9_divisions,5,Economic inequality
+Chat,User,MultipleChoice,Q9_divisions,6,Cultural misunderstanding
+Chat,User,MultipleChoice,Q9_divisions,7,Other
+Chat,User,String,Q9_divisions_other,,
+Chat,User,String,Q9_divisions_other_sentiment,,
+Chat,User,Decimal,Q9_divisions_other_sentiment_percentage,,
+Chat,User,MultipleChoice,Q10_Connection_building,1,Honest dialogue and listening
+Chat,User,MultipleChoice,Q10_Connection_building,2,Collaborative community projects
+Chat,User,MultipleChoice,Q10_Connection_building,3,Cultural celebration and exchange
+Chat,User,MultipleChoice,Q10_Connection_building,4,Educational transformation
+Chat,User,MultipleChoice,Q10_Connection_building,5,Indigenous-led reconciliation
+Chat,User,MultipleChoice,Q10_Connection_building,6,Newcomer integration and knowledge
+Chat,User,MultipleChoice,Q10_Connection_building,7,Other
+Chat,User,String,Q10_Other,,
+Chat,User,String,Q10_Other_sentiment,,
+Chat,User,Decimal,Q10_Other_sentiment_percentage,,
+Chat,User,SingleChoice,Q11_cover_tailgate,1,Sure - I'll record a video 🤳
+Chat,User,SingleChoice,Q11_cover_tailgate,2,I'll type my answer instead📱
+Chat,User,String,Q11_video_transcription,,
+Chat,User,String,Q11_video_sentiment,,
+Chat,User,Decimal,Q11_video_sentiment_percentage,,
+Chat,User,String,Q11_Text,,
+Chat,User,String,Q11_Text_sentiment,,
+Chat,User,Decimal,Q11_Text_sentiment_percentage,,
+Chat,User,String,Q12_Future_hope,,
+Chat,User,String,Q12_Future_hope_sentiment,,
+Chat,User,Decimal,Q12_Future_hope_sentiment_percentage,,
+Chat,User,String,Q13_Future_fear,,
+Chat,User,String,Q13_Future_fear_sentiment,,
+Chat,User,Decimal,Q13_Future_fear_sentiment_percentage,,
+Chat,User,SingleChoice,Q14_video_consent,1,"Yes, I give my consent for my video to be shared or used by Angus Reid Forum and their clients publicly"
+Chat,User,SingleChoice,Q14_video_consent,2,"No, I don’t give my consent for my video to be shared or used by Angus Reid forum and their clients publicly"

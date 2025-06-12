@@ -1,0 +1,432 @@
+{
+  "metadata": {
+    "total_responses": 1001,
+    "distribution_types": {
+      "Link": 1001
+    },
+    "engagement_statuses": {
+      "Completed": 1001
+    },
+    "response_completeness": {
+      "average_completeness": 0.49206890670305303,
+      "completeness_distribution": {
+        "high_completeness": 0,
+        "medium_completeness": 612,
+        "low_completeness": 389
+      }
+    }
+  },
+  "demographic_patterns": {
+    "provinces": {
+      "Ontario": 380,
+      "Alberta": 117,
+      "British Columbia": 139,
+      "Manitoba": 33,
+      "New Brunswick": 29,
+      "Quebec": 222,
+      "Saskatchewan": 39,
+      "Nova Scotia": 32,
+      "Prince Edward Island": 3,
+      "Newfoundland and Labrador": 6,
+      "Nunavut": 1
+    },
+    "urban_rural": {
+      "Urban (big city or downtown area)": 394,
+      "Rural (small town, village, or countryside)": 233,
+      "Suburban (residential area near a city)": 369,
+      "Remote or Northern community": 5
+    },
+    "generations": {
+      "Millennial (born ~1981–1996)": 307,
+      "Gen Z (born ~1997–2012)": 91,
+      "Gen X (born ~1965–1980)": 247,
+      "Silent Generation (born before 1946)": 22,
+      "Boomer (born ~1946–1964)": 334
+    },
+    "tenure": {
+      "Less than 5 years": 14,
+      "All my life": 833,
+      "5–10 years": 22,
+      "20+ years": 103,
+      "11–20 years": 29
+    },
+    "diversity_metrics": {
+      "provinces_diversity": 1.7333393375030974,
+      "provinces_balance": 0.7228586490686355,
+      "urban_rural_diversity": 1.1006575074297866,
+      "urban_rural_balance": 0.7939565638430803,
+      "generations_diversity": 1.3759142015155061,
+      "generations_balance": 0.8549035603582776,
+      "tenure_diversity": 0.633099009714085,
+      "tenure_balance": 0.39336653177045605
+    }
+  },
+  "identity_connection": {
+    "connection_levels": {
+      "Very connected": 512,
+      "Somewhat connected": 297,
+      "A little connected": 104,
+      "Not at all connected": 35,
+      "Not very connected": 53
+    },
+    "average_connection_score": 4.196803196803197,
+    "connection_strength": "Strong",
+    "one_word_analysis": {
+      "top_words": {
+        "i'll type my answer instead📱": 997,
+        "sure - i'll record a video 🤳": 4
+      },
+      "sentiment_distribution": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 1001
+      },
+      "total_responses": 1001
+    },
+    "connection_themes": {
+      "theme_counts": {},
+      "total_analyzed": 1001
+    }
+  },
+  "values_priorities": {
+    "values_counts": {
+      "Equitable systems": 465,
+      "Freedom and autonomy": 619,
+      "Embracing pluralism": 137,
+      "Community care networks": 369,
+      "Environmental regeneration": 356,
+      "Technological innovation and adaptation": 403,
+      "Indigenous reconciliation and rights": 290,
+      "Other": 87
+    },
+    "values_percentages": {
+      "Equitable systems": 46.45354645354645,
+      "Freedom and autonomy": 61.838161838161845,
+      "Embracing pluralism": 13.686313686313687,
+      "Community care networks": 36.863136863136866,
+      "Environmental regeneration": 35.56443556443556,
+      "Technological innovation and adaptation": 40.25974025974026,
+      "Indigenous reconciliation and rights": 28.97102897102897,
+      "Other": 8.691308691308691
+    },
+    "top_values": [
+      [
+        "Freedom and autonomy",
+        619
+      ],
+      [
+        "Equitable systems",
+        465
+      ],
+      [
+        "Technological innovation and adaptation",
+        403
+      ],
+      [
+        "Community care networks",
+        369
+      ],
+      [
+        "Environmental regeneration",
+        356
+      ]
+    ]
+  },
+  "social_divisions": {
+    "divisions_counts": {
+      "Generational perspectives": 106,
+      "Economic inequality": 471,
+      "Political polarization": 616,
+      "Cultural misunderstanding": 163,
+      "Resource and regional tensions": 325,
+      "Other": 50,
+      "Urban/rural disconnection": 157
+    },
+    "concern_percentages": {
+      "Generational perspectives": 10.589410589410589,
+      "Economic inequality": 47.052947052947054,
+      "Political polarization": 61.53846153846154,
+      "Cultural misunderstanding": 16.283716283716284,
+      "Resource and regional tensions": 32.467532467532465,
+      "Other": 4.9950049950049955,
+      "Urban/rural disconnection": 15.684315684315683
+    },
+    "top_concerns": [
+      [
+        "Political polarization",
+        616
+      ],
+      [
+        "Economic inequality",
+        471
+      ],
+      [
+        "Resource and regional tensions",
+        325
+      ]
+    ]
+  },
+  "connection_building": {
+    "strategies_counts": {
+      "Cultural celebration and exchange": 246,
+      "Newcomer integration and knowledge": 189,
+      "Honest dialogue and listening": 676,
+      "Collaborative community projects": 277,
+      "Educational transformation": 307,
+      "Indigenous-led reconciliation": 99,
+      "Other": 56
+    },
+    "strategy_percentages": {
+      "Cultural celebration and exchange": 24.575424575424577,
+      "Newcomer integration and knowledge": 18.88111888111888,
+      "Honest dialogue and listening": 67.53246753246754,
+      "Collaborative community projects": 27.672327672327672,
+      "Educational transformation": 30.66933066933067,
+      "Indigenous-led reconciliation": 9.89010989010989,
+      "Other": 5.594405594405594
+    },
+    "top_strategies": [
+      [
+        "Honest dialogue and listening",
+        676
+      ],
+      [
+        "Educational transformation",
+        307
+      ],
+      [
+        "Collaborative community projects",
+        277
+      ]
+    ]
+  },
+  "future_aspirations": {
+    "hopes": {
+      "theme_counts": {
+        "prosperity": 101,
+        "unity": 147,
+        "healthcare": 14,
+        "democracy": 55,
+        "equality": 67,
+        "environment": 11,
+        "reconciliation": 13,
+        "education": 4,
+        "diversity": 5,
+        "technology": 3
+      },
+      "top_words": {
+        "unity": 92,
+        "prosperity": 66,
+        "peace": 55,
+        "freedom": 51,
+        "equality": 40,
+        "change": 22,
+        "equity": 18,
+        "united": 18,
+        "stability": 15,
+        "growth": 14,
+        "country": 13,
+        "independence": 13,
+        "economy": 12,
+        "reconciliation": 12,
+        "sovereignty": 12
+      },
+      "total_responses": 998
+    },
+    "fears": {
+      "theme_counts": {
+        "division": 116,
+        "technology": 2,
+        "unity": 8,
+        "decline": 23,
+        "democracy": 9,
+        "environment": 4,
+        "prosperity": 14,
+        "equality": 10,
+        "inequality": 7,
+        "extremism": 12,
+        "diversity": 3,
+        "education": 2,
+        "healthcare": 2
+      },
+      "top_words": {
+        "division": 88,
+        "trump": 55,
+        "separation": 31,
+        "usa": 30,
+        "annexation": 29,
+        "polarization": 26,
+        "liberals": 21,
+        "war": 19,
+        "america": 17,
+        "fascism": 16,
+        "economy": 14,
+        "debt": 13,
+        "state": 12,
+        "government": 11,
+        "conservatives": 10
+      },
+      "total_responses": 1000
+    },
+    "aspirations": {
+      "theme_counts": {},
+      "top_words": {
+        "type": 995,
+        "answer": 995,
+        "instead": 995,
+        "sure": 6,
+        "record": 6,
+        "video": 6
+      },
+      "total_responses": 1001
+    }
+  },
+  "themes": {
+    "theme_scores": {
+      "opportunity": 32,
+      "economy": 122,
+      "unity": 166,
+      "healthcare": 25,
+      "government": 41,
+      "values": 128,
+      "community": 27,
+      "geography": 11,
+      "climate": 18,
+      "heritage": 5,
+      "challenges": 4,
+      "diversity": 16,
+      "reconciliation": 13,
+      "education": 6
+    },
+    "theme_sentiment": {
+      "opportunity": {
+        "positive": 0.0,
+        "negative": 0.03125,
+        "neutral": 0.96875
+      },
+      "economy": {
+        "positive": 0.0,
+        "negative": 0.0,
+        "neutral": 1.0
+      },
+      "unity": {
+        "positive": 0.006060606060606061,
+        "negative": 0.0,
+        "neutral": 0.9939393939393939
+      },
+      "healthcare": {
+        "positive": 0.0,
+        "negative": 0.1111111111111111,
+        "neutral": 0.8888888888888888
+      },
+      "government": {
+        "positive": 0.0,
+        "negative": 0.0,
+        "neutral": 1.0
+      },
+      "values": {
+        "positive": 0.0,
+        "negative": 0.007874015748031496,
+        "neutral": 0.9921259842519685
+      },
+      "community": {
+        "positive": 0.0,
+        "negative": 0.0,
+        "neutral": 1.0
+      },
+      "geography": {
+        "positive": 0.09090909090909091,
+        "negative": 0.0,
+        "neutral": 0.9090909090909091
+      },
+      "climate": {
+        "positive": 0.0,
+        "negative": 0.0,
+        "neutral": 1.0
+      },
+      "heritage": {
+        "positive": 0.0,
+        "negative": 0.2,
+        "neutral": 0.8
+      },
+      "challenges": {
+        "positive": 0.0,
+        "negative": 0.25,
+        "neutral": 0.75
+      },
+      "diversity": {
+        "positive": 0.0,
+        "negative": 0.0,
+        "neutral": 1.0
+      },
+      "reconciliation": {
+        "positive": 0.0,
+        "negative": 0.0,
+        "neutral": 1.0
+      },
+      "education": {
+        "positive": 0.0,
+        "negative": 0.16666666666666666,
+        "neutral": 0.8333333333333334
+      }
+    },
+    "question_theme_matrix": {
+      "future_hope": {
+        "opportunity": 25,
+        "economy": 96,
+        "unity": 158,
+        "healthcare": 22,
+        "values": 111,
+        "community": 23,
+        "government": 17,
+        "geography": 8,
+        "climate": 12,
+        "challenges": 1,
+        "diversity": 9,
+        "reconciliation": 13,
+        "heritage": 3,
+        "education": 4
+      },
+      "future_fear": {
+        "economy": 26,
+        "opportunity": 7,
+        "government": 24,
+        "unity": 8,
+        "values": 17,
+        "geography": 3,
+        "climate": 6,
+        "heritage": 2,
+        "challenges": 3,
+        "diversity": 7,
+        "education": 2,
+        "healthcare": 3,
+        "community": 4
+      }
+    }
+  },
+  "actionable_insights": {
+    "identity_strengthening": [],
+    "unity_building": [],
+    "value_alignment": [],
+    "division_addressing": [],
+    "future_planning": [],
+    "connection_patterns": {
+      "strong_connection_count": 512,
+      "weak_connection_count": 88,
+      "connection_ratio": 0.5114885114885115
+    },
+    "action_patterns": {
+      "change": 17,
+      "hope": 5,
+      "build": 1,
+      "and hope for our": 1,
+      "to hopefully avoid falling": 1,
+      "real change": 1,
+      "improvement we can't": 1,
+      "nation building in canada": 1,
+      "climate change action!": 1,
+      "improved": 1
+    }
+  },
+  "analysis_timestamp": "2025-06-06T16:27:51.260389"
+}

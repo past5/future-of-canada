@@ -1,0 +1,3176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canadian Identity Survey - Complete Analysis Dashboard</title>
+    <style>
+        :root {
+          /* Core palette */
+          --navy: #1D3557;
+          --sky: #A8DADC;
+          --snow: #F1FAEE;
+          --leaf: #E8534A;
+          --pine: #4A7C29;
+          /* Utility colours derived from palette */
+          --balance: #457B9D;   /* muted navy‑sky */
+          --fear: #B91D47;      /* deeper red */
+          --overlay: rgba(0, 0, 0, 0.45); /* hero-content bg */
+
+          /* Elevation & opacity helpers */
+          --glass-bg: rgba(255, 255, 255, 0.95);
+          --glass-border: rgba(69, 123, 157, 0.35);
+          --glass-shadow: rgba(69, 123, 157, 0.2);
+        }
+
+        /* --------------------  base reset  -------------------- */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+          font-family: "Segoe UI", "Inter", Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, var(--leaf) 0%, var(--sky) 25%, var(--snow) 50%, var(--balance) 75%, var(--navy) 100%);
+          min-height: 100vh;
+          color: #1a1a1a;
+          position: relative;
+          overflow-x: hidden;
+        }
+
+        /* ===================================================================== */
+        /*  HERO BANNER                                                          */
+        /* ===================================================================== */
+        .hero {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+          color: #fff;
+          overflow: hidden;
+          isolation: isolate;
+          justify-content: flex-end; /* Move content to bottom */
+        }
+
+        /* Add smooth transition from hero to main content */
+        .hero::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 100px;
+          background: linear-gradient(to bottom, 
+            transparent 0%, 
+            rgba(241, 250, 238, 0.1) 30%,
+            rgba(241, 250, 238, 0.3) 60%,
+            rgba(241, 250, 238, 0.6) 100%);
+          z-index: 1;
+          pointer-events: none;
+        }
+        .hero-video-container {
+          position: relative;
+          flex: 1;
+          min-height: 60vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        .hero-img {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover;
+          object-position: center;
+          animation: slowPan 40s linear infinite alternate;
+          z-index: -3;
+        }
+        /* Gentle pan & slight zoom */
+        @keyframes slowPan {
+          0%   { object-position: 50% 50%; transform: scale(1); }
+          50%  { object-position: 60% 40%; transform: scale(1.05); }
+          100% { object-position: 50% 50%; transform: scale(1); }
+        }
+        .hero-content {
+          position: relative;
+          z-index: 2;
+          max-width: 860px;
+          margin: 0 auto 2rem auto; /* Add bottom margin instead of top */
+          padding: 1.2rem 2rem; /* Reduced padding for narrower strip */
+          background: rgba(255, 255, 255, 0.15); /* Very light transparent background */
+          backdrop-filter: blur(3px); /* Reduced blur for more video visibility */
+          border-radius: 18px;
+          box-shadow: 0 4px 15px rgba(0,0,0,.15); /* Lighter shadow */
+          border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border for definition */
+        }
+        .hero-content h1 { 
+          font-size: clamp(2rem, 4vw + .5rem, 3.5rem); 
+          font-weight: 800; 
+          letter-spacing: -.02em;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle { 
+          margin: 1rem 0 0.5rem; 
+          font-size: clamp(1.1rem, 1.2vw + .3rem, 1.4rem); 
+          line-height: 1.4; 
+          color: rgba(255, 255, 255, 0.98);
+          font-weight: 600;
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), 1px 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-description { 
+          margin: 0.5rem 0 2rem; 
+          font-size: clamp(0.95rem, 1vw + .2rem, 1.15rem); 
+          line-height: 1.5; 
+          color: rgba(255, 255, 255, 0.95);
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+        .cta-btn {
+          display: inline-block; padding: .9rem 2.2rem;
+          background: linear-gradient(135deg, var(--balance), var(--navy));
+          border-radius: 32px; color: #fff; font-weight: 600;
+          text-decoration: none; transition: transform .25s ease, box-shadow .25s ease;
+          box-shadow: 0 8px 24px rgba(0,0,0,.25);
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
+
+        /* Reduce‑motion friendliness */
+        @media (prefers-reduced-motion: reduce) {
+          * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+        }
+
+        /* ===================================================================== */
+        /*  MAPLE LEAF & STAR BACKGROUNDS                                        */
+        /* ===================================================================== */
+        .maple-leaves, .stars {
+          position: fixed; inset: 0;
+          pointer-events: none;
+          z-index: 1;
+          overflow: hidden;
+        }
+        .maple-leaf {
+          position: absolute;
+          font-size: 20px;
+          color: rgba(232, 83, 74, 0.15);
+          animation: fall 15s infinite linear;
+          user-select: none;
+        }
+        @keyframes fall {
+          0% { transform: translateY(-100vh) rotate(0deg); opacity: 0; }
+          10%, 90% { opacity: 1; }
+          100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .star {
+          position: absolute; width: 2px; height: 2px; background: rgba(255,255,255,.85); border-radius: 50%;
+          animation: twinkle 4s infinite;
+        }
+        @keyframes twinkle { 0%, 100% { opacity:.3; transform:scale(1);} 50% { opacity:1; transform:scale(1.2);} }
+
+        /* ===================================================================== */
+        /*  CONTAINER & GLASS SECTIONS                                           */
+        /* ===================================================================== */
+        .container { 
+          max-width: 1200px; 
+          margin: -50px auto 0 auto; /* Negative margin to blend with hero */
+          padding: 70px 20px 20px 20px; /* Extra top padding to compensate */
+          position: relative; 
+          z-index: 10;
+        }
+        .header {
+          background: linear-gradient(135deg, var(--glass-bg), rgba(168, 218, 220, 0.15));
+          backdrop-filter: blur(15px);
+          border: 3px solid var(--balance);
+          border-radius: 20px;
+          padding: 30px;
+          margin-bottom: 30px;
+          box-shadow: 0 12px 28px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,.8);
+          text-align: center;
+        }
+        
+        .header h1 {
+            color: #1D3557;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #444;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            backdrop-filter: blur(10px);
+            border: 2px solid #457B9D;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 
+                0 10px 30px rgba(69, 123, 157, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .stat-card::before {
+            content: "🍁";
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 12px;
+            opacity: 0.3;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 20px 40px rgba(69, 123, 157, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-color: #1D3557;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1D3557;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .stat-label {
+            color: #333;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            backdrop-filter: blur(15px);
+            border: 2px solid #457B9D;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 
+                0 20px 40px rgba(69, 123, 157, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        
+        .section h2 {
+            color: #1D3557;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #457B9D;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2::after {
+            content: "🍁";
+            font-size: 1.2rem;
+        }
+
+        /* ===================================================================== */
+        /*  THE GREAT CANADIAN PARADOX STYLES                                   */
+        /* ===================================================================== */
+        .paradox-section {
+            background: linear-gradient(135deg, 
+                rgba(232, 83, 74, 0.05), 
+                rgba(255, 255, 255, 0.95), 
+                rgba(69, 123, 157, 0.05));
+            border: 3px solid #E8534A;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paradox-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(232, 83, 74, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(69, 123, 157, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .paradox-intro {
+            position: relative;
+            z-index: 2;
+        }
+
+        .paradox-stat-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(232, 83, 74, 0.1));
+            border: 2px solid #E8534A;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(232, 83, 74, 0.2);
+        }
+
+        .paradox-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #E8534A;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .paradox-text {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+            max-width: 200px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .paradox-vs {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #1D3557;
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 10px 20px;
+            border: 2px solid #457B9D;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .paradox-explanation {
+            background: linear-gradient(135deg, rgba(29, 53, 87, 0.1), rgba(255, 255, 255, 0.9));
+            border: 2px solid #457B9D;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .paradox-explanation::before {
+            display: none;
+        }
+
+        /* Timeline Styles */
+        .paradox-timeline {
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #E8534A, #457B9D, #1D3557);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-marker {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #E8534A, #457B9D);
+            border: 3px solid white;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(232, 83, 74, 0.4);
+        }
+
+        .timeline-item.active .timeline-marker {
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(232, 83, 74, 0.4); }
+            50% { box-shadow: 0 8px 25px rgba(232, 83, 74, 0.7), 0 0 20px rgba(232, 83, 74, 0.3); }
+        }
+
+        .timeline-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            border: 2px solid #457B9D;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 0 60px;
+            width: calc(50% - 60px);
+            box-shadow: 0 5px 20px rgba(69, 123, 157, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.25);
+        }
+
+        .timeline-content h4 {
+            color: #1D3557;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .paradox-moment {
+            background: linear-gradient(135deg, #E8534A, #B91D47);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 10px;
+            box-shadow: 0 3px 10px rgba(232, 83, 74, 0.3);
+        }
+
+        .paradox-moment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 83, 74, 0.4);
+            background: linear-gradient(135deg, #B91D47, #8B1538);
+        }
+
+        /* Social Identity Analysis Styles */
+        .social-identity-analysis {
+            margin: 40px 0;
+        }
+
+        .identity-insights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .identity-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            border: 3px solid;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.15);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .identity-card.in-group {
+            border-color: #4A7C29;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(74, 124, 41, 0.1));
+        }
+
+        .identity-card.out-group {
+            border-color: #E8534A;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(232, 83, 74, 0.1));
+        }
+
+        .identity-card.resolution {
+            border-color: #457B9D;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(69, 123, 157, 0.1));
+        }
+
+        .identity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(69, 123, 157, 0.25);
+        }
+
+        .identity-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .identity-card h4 {
+            color: #1D3557;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .identity-card p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .identity-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .stat-badge {
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(69, 123, 157, 0.3);
+        }
+
+        .stat-badge.fear {
+            background: linear-gradient(135deg, #E8534A, #B91D47);
+        }
+
+        .stat-badge.hope {
+            background: linear-gradient(135deg, #4A7C29, #2D5016);
+        }
+
+        /* ===================================================================== */
+        /*  PARADOX DETAIL MODAL – KEEP IN VIEWPORT                              */
+        /* ===================================================================== */
+        .paradox-details {
+          position: fixed;
+          inset: 0;
+          /* overlay look */
+          background: rgba(0, 0, 0, 0.65);
+          backdrop-filter: blur(4px);
+          z-index: 1000;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);   /* true centre */
+          /* centring + scroll-when-needed */
+          display: absolute;
+          align-items: flex;     /* header is always visible */
+          justify-content: center;
+          padding: 2rem 1rem;          /* breathing room around the box */
+          overflow: auto;              /* the overlay itself scrolls */
+          max-height: 90vh;  
+        }
+
+        /* the card that holds the content */
+        .detail-content {
+          position: relative;
+          width: 100%;
+          max-width: 800px;
+
+          /* instead of internal scrolling, let the
+            overlay scroll – this prevents double bars
+            and "cut-off" bottoms */
+          max-height: none;
+          overflow: visible;
+
+          background: linear-gradient(
+                      135deg,
+                      rgba(255, 255, 255, 0.98),
+                      rgba(168, 218, 220, 0.1));
+          border: 3px solid #457B9D;
+          border-radius: 18px;
+          padding: 2.5rem 2rem 2rem;
+          box-shadow: 0 20px 60px rgba(69, 123, 157, 0.35);
+        }
+
+        /* close button keeps its place */
+        .close-detail {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+        }
+
+        /* ----------  Mobile tweaks  ---------- */
+        @media (max-width: 768px) {
+          .paradox-details {
+            padding: 1.5rem 0.75rem;
+          }
+
+          .detail-content {
+            border-radius: 14px;
+          }
+        }
+
+        /* Paradox highlight hover effects */
+        .paradox-highlight:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(232, 83, 74, 0.2);
+            border-color: #B91D47;
+        }
+        
+        .question-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .question-btn {
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            color: white;
+            border: 2px solid #1D3557;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(69, 123, 157, 0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .question-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(69, 123, 157, 0.4);
+            background: linear-gradient(135deg, #6B9BC3, #457B9D);
+        }
+        
+        .question-btn.active {
+            background: linear-gradient(135deg, #FFFFFF, #F0F0F0);
+            color: #1D3557;
+            border-color: #457B9D;
+            transform: translateY(-2px);
+            font-weight: 700;
+        }
+        
+        .question-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .question-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Enhanced Canadian Values Compass */
+        .compass-section {
+            background: linear-gradient(135deg, 
+                rgba(69, 123, 157, 0.1), 
+                rgba(255, 255, 255, 0.9), 
+                rgba(232, 83, 74, 0.1));
+            border: 3px solid #457B9D;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .compass-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(69, 123, 157, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(232, 83, 74, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .compass-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .compass {
+            width: 500px;
+            height: 500px;
+            position: relative;
+            background: 
+                radial-gradient(circle at 50% 50%, 
+                    rgba(255,255,255,0.95) 0%, 
+                    rgba(168, 218, 220, 0.2) 40%, 
+                    rgba(69, 123, 157, 0.1) 70%,
+                    rgba(29, 53, 87, 0.2) 100%);
+            border-radius: 50%;
+            border: 4px solid #457B9D;
+            box-shadow: 
+                0 0 40px rgba(69, 123, 157, 0.3),
+                inset 0 0 40px rgba(255,255,255, 0.6),
+                0 0 80px rgba(69, 123, 157, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .compass-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 50%;
+        }
+
+        /* Enhanced North-South axis with Canadian colors */
+        .axis-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 3px;
+            height: 85%;
+            background: linear-gradient(to bottom, 
+                #E8534A 0%, 
+                rgba(232, 83, 74, 0.8) 20%, 
+                rgba(255,255,255,0.9) 50%, 
+                rgba(69, 123, 157, 0.8) 80%, 
+                #457B9D 100%);
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            box-shadow: 0 0 15px rgba(69, 123, 157, 0.6);
+            border-radius: 2px;
+        }
+
+        /* Enhanced intensity rings */
+        .intensity-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(69, 123, 157, 0.3);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ring-25 { width: 25%; height: 25%; border-color: rgba(69, 123, 157, 0.4); }
+        .ring-50 { width: 50%; height: 50%; border-color: rgba(69, 123, 157, 0.3); }
+        .ring-75 { width: 75%; height: 75%; border-color: rgba(69, 123, 157, 0.2); }
+
+        /* Enhanced compass directions with Canadian styling */
+        .compass-direction {
+            position: absolute;
+            width: 120px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.2));
+            border-radius: 25px;
+            border: 3px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            padding: 8px;
+            z-index: 15;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .compass-direction:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .compass-direction.active {
+            transform: scale(1.12);
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.4);
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            color: white !important;
+        }
+
+        /* NORTH - True North (Subtle Green) */
+        .direction-n { 
+            top: -25px; left: 50%; transform: translateX(-50%); 
+            color: #2D5016; border-color: #4A7C29; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(74, 124, 41, 0.15));
+        }
+        .direction-nne { 
+            top: 8%; right: 15%; 
+            color: #2D5016; border-color: #4A7C29; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(74, 124, 41, 0.15));
+        }
+        .direction-nnw { 
+            top: 8%; left: 15%; 
+            color: #2D5016; border-color: #4A7C29; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(74, 124, 41, 0.15));
+        }
+
+        /* EAST/WEST - Heritage & Progress (Deep Blue) */
+        .direction-e { 
+            top: 50%; right: -60px; transform: translateY(-50%); 
+            color: #1D3557; border-color: #1D3557; 
+        }
+        .direction-w { 
+            top: 50%; left: -60px; transform: translateY(-50%); 
+            color: #1D3557; border-color: #1D3557; 
+        }
+
+        /* SOUTH - On Guard (Subtle Red) */
+        .direction-s { 
+            bottom: -25px; left: 50%; transform: translateX(-50%); 
+            color: #8B1538; border-color: #B91D47; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(185, 29, 71, 0.15));
+        }
+        .direction-sse { 
+            bottom: 8%; right: 15%; 
+            color: #8B1538; border-color: #B91D47; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(185, 29, 71, 0.15));
+        }
+        .direction-ssw { 
+            bottom: 8%; left: 15%; 
+            color: #8B1538; border-color: #B91D47; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(185, 29, 71, 0.15));
+        }
+
+        /* Enhanced compass needle */
+        .compass-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 180px;
+            transform-origin: bottom center;
+            transform: translate(-50%, -100%) rotate(0deg);
+            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 20;
+        }
+
+        .needle-north {
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to top, #E8534A, #FF9A97);
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(232, 83, 74, 0.6);
+        }
+
+        .needle-south {
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to bottom, #457B9D, #6B9BC3);
+            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+            border-radius: 2px;
+        }
+
+        .compass-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            background: 
+                radial-gradient(circle, #FFFFFF 0%, #457B9D 30%, #FFFFFF 70%, #E8534A 100%);
+            border: 3px solid #1D3557;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 25;
+            box-shadow: 
+                0 0 20px rgba(69, 123, 157, 0.8),
+                inset 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .compass-center::after {
+            content: "🍁";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8px;
+            z-index: 26;
+        }
+
+        /* Enhanced cardinal labels - positioned to avoid overlap */
+        .cardinal-label {
+            position: absolute;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 10;
+            text-shadow: 
+                2px 2px 4px rgba(255, 255, 255, 0.9),
+                -1px -1px 2px rgba(255, 255, 255, 0.9);
+            color: #1D3557;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 4px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(69, 123, 157, 0.3);
+        }
+
+        .label-n { 
+            top: 60px; left: 50%; transform: translateX(-50%); 
+        }
+        .label-e { 
+            top: 50%; right: 60px; transform: translateY(-50%); 
+        }
+        .label-s { 
+            bottom: 60px; left: 50%; transform: translateX(-50%); 
+        }
+        .label-w { 
+            top: 50%; left: 60px; transform: translateY(-50%); 
+        }
+
+        /* Enhanced compass info panel */
+        .compass-info {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            border: 2px solid #457B9D;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px auto;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .selected-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #1D3557;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .value-percentage {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            color: #E8534A;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .value-description {
+            text-align: center;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .compass-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(168, 218, 220, 0.1));
+            border: 2px solid #457B9D;
+            padding: 8px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid rgba(69, 123, 157, 0.3);
+        }
+
+        .hopes { background: #4A7C29; }
+        .fears { background: #B91D47; }
+        .balance { background: #1D3557; }
+        
+        .chart-container {
+            margin: 20px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(168, 218, 220, 0.1));
+            border: 2px solid #457B9D;
+            border-radius: 15px;
+            border-left: 5px solid #1D3557;
+            box-shadow: 0 5px 20px rgba(69, 123, 157, 0.1);
+        }
+
+        .chart-container h4 {
+            color: #1D3557;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .bar-chart {
+            margin: 20px 0;
+        }
+        
+        .bar-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            border: 1px solid rgba(69, 123, 157, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(69, 123, 157, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .bar-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 5px 20px rgba(69, 123, 157, 0.2);
+            border-color: #457B9D;
+        }
+        
+        .bar-label {
+            min-width: 200px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .bar-visual {
+            height: 28px;
+            background: linear-gradient(90deg, #E8534A, #457B9D, #1D3557);
+            margin: 0 15px;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(69, 123, 157, 0.3);
+        }
+        
+        .bar-visual::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.4), transparent, rgba(255,255,255,0.2));
+            border-radius: 14px;
+        }
+        
+        .bar-value {
+            font-weight: bold;
+            color: #1D3557;
+            min-width: 80px;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+        
+        .samples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .sample-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            border: 2px solid rgba(69, 123, 157, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(69, 123, 157, 0.1);
+            border-left: 4px solid #457B9D;
+            font-style: italic;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .sample-item::before {
+            content: "🍁";
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 10px;
+            opacity: 0.3;
+        }
+        
+        .sample-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(69, 123, 157, 0.2);
+            border-color: #457B9D;
+        }
+        
+        .insight-box {
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.4);
+            border: 2px solid #1D3557;
+        }
+        
+        .insight-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .insight-box p {
+            line-height: 1.6;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        .data-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            border: 2px solid #457B9D;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(69, 123, 157, 0.15);
+            border-top: 4px solid #1D3557;
+            position: relative;
+        }
+
+        .summary-card::before {
+            content: "🍁";
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 12px;
+            opacity: 0.3;
+        }
+        
+        .summary-card h3 {
+            color: #1D3557;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .summary-card ul {
+            list-style: none;
+            color: #333;
+        }
+        
+        .summary-card li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(69, 123, 157, 0.1);
+            font-weight: 500;
+        }
+        
+        .summary-card li:last-child {
+            border-bottom: none;
+        }
+
+        .summary-card li strong {
+            color: #1D3557;
+        }
+        
+        .methodology {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(168, 218, 220, 0.1));
+            border: 2px solid #457B9D;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-left: 5px solid #1D3557;
+        }
+        
+        .methodology h3 {
+            color: #1D3557;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .methodology p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .methodology strong {
+            color: #1D3557;
+        }
+
+        /* Video Insights Section Styles */
+        .feature-gallery {
+            margin: 30px 0;
+        }
+
+        .video-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .video-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            border: 3px solid;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(69, 123, 157, 0.3);
+        }
+
+        .thinker-card {
+            border-color: #4A7C29;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(74, 124, 41, 0.1));
+        }
+
+        .dreamer-card {
+            border-color: #E8534A;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(232, 83, 74, 0.1));
+        }
+
+        .heart-card {
+            border-color: #B91D47;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(185, 29, 71, 0.1));
+        }
+
+        .video-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .video-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .video-header h4 {
+            color: #1D3557;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .video-subtitle {
+            color: #666;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .video-player {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .video-player video {
+            width: 100%;
+            max-width: 400px;
+            height: 225px;
+            border-radius: 10px;
+            border: 2px solid rgba(69, 123, 157, 0.3);
+            box-shadow: 0 5px 15px rgba(69, 123, 157, 0.2);
+        }
+
+        .video-fallback {
+            background: linear-gradient(135deg, rgba(69, 123, 157, 0.1), rgba(255, 255, 255, 0.8));
+            border: 2px dashed #457B9D;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .quote-section {
+            margin: 20px 0;
+        }
+
+        .quote-section blockquote {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(168, 218, 220, 0.2));
+            border-left: 4px solid #457B9D;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-style: italic;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .quote-section blockquote::before {
+            content: '"';
+            font-size: 3rem;
+            color: #457B9D;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            opacity: 0.3;
+        }
+
+        .secondary-quote {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .video-insights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .insight-tag {
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(69, 123, 157, 0.3);
+        }
+
+        .compass-connection {
+            background: linear-gradient(135deg, rgba(29, 53, 87, 0.1), rgba(255, 255, 255, 0.8));
+            border: 2px solid rgba(69, 123, 157, 0.3);
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Video Spectrum Styles */
+        .video-spectrum {
+            margin: 40px 0;
+        }
+
+        .spectrum-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .spectrum-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1));
+            border: 2px solid #457B9D;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(69, 123, 157, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .spectrum-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.25);
+        }
+
+        .connected {
+            border-color: #4A7C29;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(74, 124, 41, 0.1));
+        }
+
+        .questioning {
+            border-color: #E8534A;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(232, 83, 74, 0.1));
+        }
+
+        .searching {
+            border-color: #B91D47;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(185, 29, 71, 0.1));
+        }
+
+        .spectrum-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .spectrum-item h4 {
+            color: #1D3557;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .spectrum-item p {
+            color: #333;
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .spectrum-stat {
+            background: linear-gradient(135deg, #1D3557, #457B9D);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-block;
+            box-shadow: 0 3px 10px rgba(69, 123, 157, 0.3);
+        }
+
+        /* Geographic Identity Styles */
+        .geographic-identity {
+            margin: 40px 0;
+        }
+
+        .geo-insights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+            align-items: start;
+        }
+
+        .geo-quote {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.2));
+            border: 3px solid #457B9D;
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.2);
+        }
+
+        .quote-mark {
+            font-size: 4rem;
+            color: #457B9D;
+            opacity: 0.3;
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            font-family: serif;
+        }
+
+        .geo-quote p {
+            color: #333;
+            line-height: 1.6;
+            font-style: italic;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quote-attribution {
+            text-align: right;
+            font-weight: 700;
+            color: #1D3557;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        .geo-analysis {
+            background: linear-gradient(135deg, rgba(29, 53, 87, 0.05), rgba(255, 255, 255, 0.9));
+            border: 2px solid #457B9D;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(69, 123, 157, 0.15);
+        }
+
+        .geo-analysis h4 {
+            color: #1D3557;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .geo-analysis ul {
+            list-style: none;
+            color: #333;
+        }
+
+        .geo-analysis li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(69, 123, 157, 0.1);
+            line-height: 1.5;
+        }
+
+        .geo-analysis li:last-child {
+            border-bottom: none;
+        }
+
+        .geo-analysis li strong {
+            color: #1D3557;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .compass {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .compass-direction {
+                width: 100px;
+                height: 45px;
+                font-size: 0.7rem;
+            }
+            
+            .direction-e { right: -50px; }
+            .direction-w { left: -50px; }
+            
+            .question-nav {
+                justify-content: center;
+            }
+            
+            .compass-legend {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            /* Mobile styles for video section */
+            .video-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .spectrum-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .geo-insights {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .video-icon {
+                font-size: 2.5rem;
+            }
+
+            .spectrum-icon {
+                font-size: 2rem;
+            }
+
+            .quote-mark {
+                font-size: 3rem;
+            }
+
+            /* Mobile styles for paradox section */
+            .paradox-stat-banner {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .paradox-number {
+                font-size: 2.5rem;
+            }
+
+            .paradox-text {
+                max-width: none;
+            }
+
+            .timeline-container::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start;
+                padding-left: 50px;
+            }
+
+            .timeline-marker {
+                left: 20px !important;
+                transform: none !important;
+            }
+
+            .timeline-content {
+                width: calc(100% - 50px);
+                margin: 10px 0;
+            }
+
+            .identity-insights {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .detail-content {
+                margin: 20px;
+                padding: 25px;
+                max-height: 90vh;
+            }
+
+            .paradox-highlight {
+                font-size: 0.9rem;
+            }
+        }
+        /* Height-fitted background video / image */
+        .hero-img,
+        .hero-video {
+          position: fixed;
+          inset: 0;
+          width: 100vw;
+          height: 100vh;
+
+          object-fit: fill;       /* ignore original aspect ratio */
+          z-index: -3;
+          pointer-events: none;
+        }
+
+        @keyframes gentleZoom {
+          0%, 100% { transform: scale(1.05); }  /* edges already off-screen */
+          50%      { transform: scale(1.1);  }
+        }
+
+        .hero-video {
+          animation: gentleZoom 40s ease-in-out infinite alternate;
+        }
+
+        .hero-img {
+          animation: slowPan 40s linear infinite alternate;
+        }
+
+      /* Updated hero content text styles */
+      .hero-content h1 { 
+        font-size: clamp(2rem, 4vw + .5rem, 3.5rem); 
+        font-weight: 800; 
+        letter-spacing: -.02em; 
+      }
+
+      .hero-subtitle { 
+        margin: 1rem 0 0.5rem; 
+        font-size: clamp(1.0rem, 1.0vw + .3rem, 1.2rem); 
+        line-height: 1.4; 
+        color: rgba(255, 255, 255, 0.95);
+        font-weight: 400;
+      }
+
+      .hero-description { 
+        margin: 0.5rem 0 2rem; 
+        font-size: clamp(0.95rem, 1vw + .2rem, 1.15rem); 
+        line-height: 1.5; 
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      /* Indigenous perspective badge */
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, rgba(74, 124, 41, 0.9), rgba(29, 53, 87, 0.9));
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-radius: 25px;
+        padding: 8px 16px;
+        margin-bottom: 1rem;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      }
+
+      .badge-text {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+
+      .indigenous-symbol {
+        font-size: 1rem;
+      }
+
+      .badge-text {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Updated CTA button container */
+      .hero-actions {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping to keep buttons on same line */
+        gap: 15px;
+        align-items: center;
+        justify-content: center; /* Center the buttons */
+      }
+
+      .cta-btn {
+        display: inline-block; 
+        padding: .9rem 2.2rem;
+        border-radius: 32px; 
+        color: #fff; 
+        font-weight: 600;
+        text-decoration: none; 
+        transition: transform .25s ease, box-shadow .25s ease;
+        box-shadow: 0 8px 24px rgba(0,0,0,.4);
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+
+      .cta-btn.primary {
+        background: linear-gradient(135deg, var(--balance), var(--navy));
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .cta-btn.secondary {
+        background: linear-gradient(135deg, rgba(74, 124, 41, 0.95), rgba(29, 53, 87, 0.9));
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(10px);
+      }
+
+      .cta-btn:hover { 
+        transform: translateY(-2px); 
+        box-shadow: 0 12px 32px rgba(0,0,0,.3); 
+      }
+
+      /* Mobile responsive additions */
+      @media (max-width: 768px) {
+        .hero-content {
+          padding: 1rem 1.2rem;
+          margin: 0 1rem 1.5rem 1rem;
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(4px);
+        }
+        
+        .hero-actions {
+          flex-direction: row;
+          gap: 10px;
+          width: 100%;
+        }
+        
+        .cta-btn {
+          flex: 1;
+          text-align: center;
+          padding: 0.7rem 1rem;
+          font-size: 0.8rem;
+        }
+        
+        .container {
+          margin: -30px auto 0 auto;
+          padding: 50px 20px 20px 20px;
+        }
+      }
+    </style>
+</head>
+<body>
+    <!-- ================================================================ -->
+    <!--  HERO SECTION                                                    -->
+    <!-- ================================================================ -->
+    <header class="hero" id="hero">
+      <video 
+        class="hero-video" 
+        autoplay 
+        muted 
+        loop 
+        playsinline
+        preload="metadata"
+        aria-label="Brody, a First Nations Canadian, shares his vision for Canada's future"
+        poster="canadian_identity_hero.png"
+        loading="eager">
+        <source src="future-of-canada.mp4" type="video/mp4">
+        <p>Your browser doesn't support video. <a href="future-of-canada.mp4">Download the video</a> to watch Brody's perspective on Canada's future.</p>
+        <img src="canadian_identity_hero.png" width="2400" height="1200" alt="Stylised compass pointing True North between forest and skyline" class="hero-img" loading="eager" decoding="async">
+      </video>
+
+      <div class="hero-content">
+        <p class="hero-subtitle">Hear from <strong>Brody</strong>, a First Nations Canadian, as he summarizes Canadian Identity Survey</p>
+        <div class="hero-actions">
+          <a href="#main" class="cta-btn primary">Explore the Findings&nbsp;↓</a>
+          <button class="cta-btn secondary" onclick="toggleHeroVideo()">
+            <span id="videoToggleText">🔊 Unmute Video</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="stars" id="stars"></div>
+    <div class="maple-leaves" id="mapleLeaves"></div>
+
+    <div class="container" id="main">
+        <div class="header">
+            <h1>🍁 Canadian Identity Survey</h1>
+            <p>Interactive Analysis Dashboard - Exploring Canadian Identity, Values, and Future Aspirations</p>
+            <p><strong>Survey Period:</strong> Round 2 Data Collection | <strong>Total Responses:</strong> 1,001 Canadians</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1,001</div>
+                <div class="stat-label">Total Responses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">14</div>
+                <div class="stat-label">Main Survey Questions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Provinces / Territories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">83%</div>
+                <div class="stat-label">Lifelong Canadians</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">81%</div>
+                <div class="stat-label">Feel Connected to Canada</div>
+            </div>
+        </div>
+        <div class="section">
+          <h2>📊 Dataset Overview</h2>
+          <div class="data-summary">
+              <div class="summary-card">
+                  <h3>🗂️ Data Files</h3>
+                  <ul>
+                      <li><strong>Main Survey Data:</strong> 1,001 rows × 90 columns</li>
+                      <li><strong>Numeric Data:</strong> Coded responses for analysis</li>
+                      <li><strong>Demographics:</strong> Filtered for eligible and complete survey responses</li>
+                      <li><strong>Geographic Coverage:</strong> All 10 provinces + 1 territory</li>
+                  </ul>
+              </div>
+              <div class="summary-card">
+                  <h3>📋 Question Categories</h3>
+                  <ul>
+                      <li><strong>Demographics:</strong> Location, tenure, generation</li>
+                      <li><strong>Identity:</strong> Connection to Canadian identity</li>
+                      <li><strong>Values:</strong> Important values for Canada's future</li>
+                      <li><strong>Social Issues:</strong> Divisions and connections</li>
+                      <li><strong>Future Vision:</strong> Hopes and fears</li>
+                  </ul>
+              </div>
+              <div class="summary-card">
+                  <h3>🔍 Response Types</h3>
+                  <ul>
+                      <li><strong>Multiple Choice:</strong> Demographics, values, divisions</li>
+                      <li><strong>Open-ended:</strong> Future hopes/fears, one-word responses</li>
+                      <li><strong>Video/Text:</strong> Recorded responses with sentiment analysis</li>
+                      <li><strong>Rating Scales:</strong> Connection levels, importance ratings</li>
+                  </ul>
+              </div>
+          </div>
+        </div>
+        <!-- The Great Canadian Paradox Section -->
+        <div class="section paradox-section">
+            <h2>🌀 The Great Canadian Paradox</h2>
+            
+            <div class="paradox-intro">
+                <div class="paradox-stat-banner">
+                    <div class="paradox-number">81%</div>
+                    <div class="paradox-text">feel deeply connected to Canadian identity</div>
+                    <div class="paradox-vs">BUT</div>
+                    <div class="paradox-number">62%</div>
+                    <div class="paradox-text">fear political polarization will tear us apart</div>
+                </div>
+                
+                <div class="paradox-explanation">
+                    <p><strong>The Canadian Identity Tension:</strong> We are simultaneously the most connected and most concerned Canadians in our history. This paradox reveals the core tension in Canadian social identity - our deep desire for unity exists alongside our greatest fear of division.</p>
+                </div>
+            </div>
+
+            <div class="paradox-timeline">
+                <h3>⏰ Evolution of Canadian Social Identity</h3>
+                <div class="timeline-container">
+                    <div class="timeline-item" data-year="Foundation">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>The Foundation Paradox</h4>
+                            <p><strong>True North Strong & Free</strong> - Unity through geography, division through vast distances</p>
+                            <div class="paradox-moment" onclick="showParadoxDetail('foundation')">🔍 Explore This Paradox</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-year="Heritage">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>The Heritage-Progress Paradox</h4>
+                            <p><strong>29% Indigenous reconciliation vs 40% Innovation</strong> - Healing the past while racing toward the future</p>
+                            <div class="paradox-moment" onclick="showParadoxDetail('heritage')">🔍 Explore This Paradox</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-year="Identity">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>The Identity Paradox</h4>
+                            <p><strong>Inclusive Multiculturalism vs Coherent National Identity</strong> - Unity through diversity</p>
+                            <div class="paradox-moment" onclick="showParadoxDetail('identity')">🔍 Explore This Paradox</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item active" data-year="Current">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4>The Connection-Division Paradox</h4>
+                            <p><strong>81% Connected, 62% Fear Division</strong> - Peak connection, peak concern</p>
+                            <div class="paradox-moment" onclick="showParadoxDetail('current')">🔍 Explore This Paradox</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-identity-analysis">
+                <h3>🧠 Social Identity Theory Lens</h3>
+                <div class="identity-insights">
+                    <div class="identity-card in-group">
+                        <div class="identity-icon">🤝</div>
+                        <h4>In-Group Solidarity</h4>
+                        <p><strong>Canadian "We":</strong> 81% feel connected through shared values of politeness, inclusivity, and care for community - but this creates pressure to maintain group cohesion.</p>
+                        <div class="identity-stats">
+                            <span class="stat-badge">62% value Freedom</span>
+                            <span class="stat-badge">37% value Community Care</span>
+                        </div>
+                    </div>
+                    
+                    <div class="identity-card out-group">
+                        <div class="identity-icon">⚡</div>
+                        <h4>Out-Group Anxiety</h4>
+                        <p><strong>The "Other" Fear:</strong> Political polarization (62% concern) represents fear that external forces will fragment our unified Canadian identity.</p>
+                        <div class="identity-stats">
+                            <span class="stat-badge fear">47% Economic Inequality</span>
+                            <span class="stat-badge fear">32% Regional Tensions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="identity-card resolution">
+                        <div class="identity-icon">🌅</div>
+                        <h4>Identity Resolution</h4>
+                        <p><strong>The Canadian Way:</strong> 68% believe honest dialogue can bridge divides - we solve identity tensions through communication, not dominance.</p>
+                        <div class="identity-stats">
+                            <span class="stat-badge hope">25% Cultural Exchange</span>
+                            <span class="stat-badge hope">10% Reconciliation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="paradox-details" id="paradoxDetails" style="display: none;">
+              <div class="detail-content" id="detailContent"></div>
+            </div>
+        </div>
+
+        <div class="section compass-section">
+            <h2>🧭 Canadian Values Compass</h2>
+            <p style="text-align: center; margin-bottom: 20px; color: #333; font-size: 1.1rem; font-weight: 600;">
+                Navigate through Canadian values: <strong style="color: #4A7C29;">True North Hopes</strong> • 
+                <strong style="color: #1D3557;">Heritage & Progress Balance</strong> • 
+                <strong style="color: #B91D47;">On Guard Concerns</strong>
+            </p>
+            
+            <div class="compass-legend">
+                <div class="legend-item">
+                    <div class="legend-color hopes"></div>
+                    <span><strong>TRUE NORTH:</strong> Hopes & Aspirations</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color balance"></div>
+                    <span><strong>BALANCE:</strong> Heritage & Progress</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color fears"></div>
+                    <span><strong>ON GUARD:</strong> Concerns & Fears</span>
+                </div>
+            </div>
+
+            <div class="compass-container">
+                <div class="compass">
+                    <div class="compass-inner">
+                        <!-- North-South axis -->
+                        <div class="axis-line"></div>
+
+                        <!-- Intensity rings -->
+                        <div class="intensity-ring ring-25"></div>
+                        <div class="intensity-ring ring-50"></div>
+                        <div class="intensity-ring ring-75"></div>
+
+                        <!-- Cardinal direction labels -->
+                        <div class="cardinal-label label-n">TRUE NORTH</div>
+                        <div class="cardinal-label label-e">HERITAGE</div>
+                        <div class="cardinal-label label-s">ON GUARD</div>
+                        <div class="cardinal-label label-w">PROGRESS</div>
+
+                        <!-- NORTH - True North hopes and positive values -->
+                        <div class="compass-direction direction-n" data-value="freedom" data-percentage="61.8" data-type="value">
+                            Freedom &<br>Autonomy
+                        </div>
+                        <div class="compass-direction direction-nne" data-value="community" data-percentage="36.9" data-type="value">
+                            Community<br>Care Networks
+                        </div>
+                        <div class="compass-direction direction-nnw" data-value="equitable" data-percentage="46.5" data-type="value">
+                            Equitable<br>Systems
+                        </div>
+
+                        <!-- EAST/WEST - Heritage & Progress balance -->
+                        <div class="compass-direction direction-e" data-value="heritage" data-percentage="29.0" data-type="value">
+                            Indigenous<br>Reconciliation
+                        </div>
+                        <div class="compass-direction direction-w" data-value="technology" data-percentage="40.3" data-type="value">
+                            Innovation &<br>Progress
+                        </div>
+
+                        <!-- SOUTH - On Guard concerns and fears -->
+                        <div class="compass-direction direction-s" data-value="polarization" data-percentage="61.5" data-type="concern">
+                            Political<br>Polarization
+                        </div>
+                        <div class="compass-direction direction-sse" data-value="inequality" data-percentage="47.1" data-type="concern">
+                            Economic<br>Inequality
+                        </div>
+                        <div class="compass-direction direction-ssw" data-value="division" data-percentage="32.5" data-type="fear">
+                            Regional<br>Tensions
+                        </div>
+
+                        <!-- Compass needle -->
+                        <div class="compass-needle" id="compassNeedle">
+                            <div class="needle-north"></div>
+                            <div class="needle-south"></div>
+                        </div>
+
+                        <!-- Center point -->
+                        <div class="compass-center"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compass-info">
+                <div class="selected-value" id="selectedValue">Freedom and Autonomy</div>
+                <div class="value-percentage" id="valuePercentage">61.8%</div>
+                <div class="value-description" id="valueDescription">
+                    At True North stands Freedom - the cornerstone of being Strong and Free. This fundamental Canadian right guides 62% of Canadians toward our highest ideals.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎥 Voices of Canada: Video Insights</h2>
+            
+            <div class="insight-box">
+                <h3>🗣️ Real Canadian Voices</h3>
+                <p><strong>Authentic Perspectives:</strong> Video responses reveal the full spectrum of Canadian connection - from deeply engaged to questioning to disconnected.</p>
+                <p><strong>Geographic Identity:</strong> Multiple respondents anchor Canadian identity in "North" - validating our True North compass positioning.</p>
+                <p><strong>Living Paradox:</strong> Canadians navigate the dynamic balance between individual freedom and collective care, diversity and common identity.</p>
+            </div>
+
+            <div class="feature-gallery">
+                <h3 style="text-align: center; color: #1D3557; margin-bottom: 30px; font-size: 1.5rem;">🍁 The Canadian Spirit: Thinker • Dreamer • Heart</h3>
+                
+                <div class="video-cards">
+                    <div class="video-card thinker-card">
+                        <div class="video-header">
+                            <div class="video-icon">🧠</div>
+                            <h4>The Thinker</h4>
+                            <p class="video-subtitle">Sophisticated Values Integration</p>
+                        </div>
+                        <div class="video-player">
+                          <video controls poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23f8f9fa'/%3E%3Ctext x='200' y='112.5' text-anchor='middle' dy='.3em' fill='%23457B9D' font-family='Arial, sans-serif' font-size='16'%3E🧠 The Thinker Video%3C/text%3E%3C/svg%3E">
+                            <source src="Q11_video_3b23e96a-1f6e-4490-bbe2-206b0884d3f8_e58eb9d3-21ac-46ee-b95a-d5a7c3ca21a0.mp4" type="video/mp4">
+                            <div class="video-fallback">
+                                <p>🎬 Video: "True North Strong and Free"</p>
+                                <p><em>Q11 Response - Canadian Future Vision</em></p>
+                            </div>
+                          </video>
+                        </div>
+                        <div class="video-content">
+                            <div class="quote-section">
+                                <blockquote>
+                                    "I think a good back cover tagline for it would be <strong>true north strong and free</strong> because so much of our identity comes from that geographic location and so much of our history comes from that... Freedom is important, but true and strong and free, we emphasize that freedom and also the strength that we have to make sure this freedom manifests in a way that protects Canadians."
+                                </blockquote>
+                            </div>
+                            <div class="video-insights">
+                                <div class="insight-tag">Heritage & Progress Balance</div>
+                                <div class="insight-tag">Freedom with Responsibility</div>
+                                <div class="insight-tag">Economic Innovation</div>
+                            </div>
+                            <div class="compass-connection">
+                                <strong>Compass Embodiment:</strong> Balances True North freedom with protective strength, integrating heritage with progressive economic thinking.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-card dreamer-card">
+                        <div class="video-header">
+                            <div class="video-icon">✨</div>
+                            <h4>The Dreamer</h4>
+                            <p class="video-subtitle">Pure Canadian Aspiration</p>
+                        </div>
+                        <div class="video-player">
+                          <video controls poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23f8f9fa'/%3E%3Ctext x='200' y='112.5' text-anchor='middle' dy='.3em' fill='%23E8534A' font-family='Arial, sans-serif' font-size='16'%3E✨ The Dreamer Video%3C/text%3E%3C/svg%3E">
+                            <source src="Q8_Video_f3e6c8bb-8e2e-4c33-b95f-e92aa7411189_384e6b12-207e-41a5-97f3-26871c21b02c.mp4" type="video/mp4">
+                            <div class="video-fallback">
+                                <p>🎬 Video: "United for Good"</p>
+                                <p><em>Q8 Response - Future Surprise</em></p>
+                            </div>
+                          </video>
+                        </div>
+                        <div class="video-content">
+                            <div class="quote-section">
+                                <blockquote>
+                                    "A wonderful surprise would be <strong>no polarization. United for good.</strong>"
+                                </blockquote>
+                                <blockquote class="secondary-quote">
+                                    "A nation realized not by power, but by compassion, not by conquest, but by conscience."
+                                </blockquote>
+                            </div>
+                            <div class="video-insights">
+                                <div class="insight-tag">Unity Over Division</div>
+                                <div class="insight-tag">Compassion First</div>
+                                <div class="insight-tag">Moral Leadership</div>
+                            </div>
+                            <div class="compass-connection">
+                                <strong>Compass Embodiment:</strong> Directly addresses our greatest fear (political polarization) with our highest hope (unity and togetherness).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-card heart-card">
+                        <div class="video-header">
+                            <div class="video-icon">❤️</div>
+                            <h4>The Heart</h4>
+                            <p class="video-subtitle">Community Care & Connection</p>
+                        </div>
+                        <div class="video-player">
+                          <video controls poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23f8f9fa'/%3E%3Ctext x='200' y='112.5' text-anchor='middle' dy='.3em' fill='%23B91D47' font-family='Arial, sans-serif' font-size='16'%3E❤️ The Heart Video%3C/text%3E%3C/svg%3E">
+                            <source src="Q5b_Video_68f8e9db-3af0-4d43-9a3d-3cf9e0869d97_742901b1-6f0f-479e-b60c-c72a9f975d90.mp4" type="video/mp4">
+                            <div class="video-fallback">
+                                <p>🎬 Video: "Compassion and Kindness"</p>
+                                <p><em>Q5b Response - Canadian Identity Connection</em></p>
+                            </div>
+                          </video>
+                        </div>
+                        <div class="video-content">
+                            <div class="quote-section">
+                                <blockquote>
+                                    "I think the Canadian identity is things like <strong>compassion and kindness, tolerance, acceptance</strong>, looking to help each other out when there's forest fires or floods, and people work together and they help each other. And that's the Canadian identity that I identify with."
+                                </blockquote>
+                            </div>
+                            <div class="video-insights">
+                                <div class="insight-tag">Mutual Aid</div>
+                                <div class="insight-tag">Crisis Response</div>
+                                <div class="insight-tag">Community Care</div>
+                            </div>
+                            <div class="compass-connection">
+                                <strong>Compass Embodiment:</strong> Represents the community care networks (37%) and strong identity connection (81%) that define Canadian values.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-spectrum">
+                <h3>📊 The Spectrum of Canadian Connection</h3>
+                <div class="spectrum-container">
+                    <div class="spectrum-item connected">
+                        <div class="spectrum-icon">🤗</div>
+                        <h4>Deeply Connected</h4>
+                        <p>"I feel very connected to Canadian identity. I love nature, I value our democracy, compassion and courage."</p>
+                        <div class="spectrum-stat">51% Very Connected</div>
+                    </div>
+                    <div class="spectrum-item questioning">
+                        <div class="spectrum-icon">❓</div>
+                        <h4>Questioning Identity</h4>
+                        <p>"I actually don't know what it means to be Canadian... there's so much diversity in the country that I'm not sure what our own individual values are any longer."</p>
+                        <div class="spectrum-stat">10% A Little Connected</div>
+                    </div>
+                    <div class="spectrum-item searching">
+                        <div class="spectrum-icon">🔍</div>
+                        <h4>Searching for Meaning</h4>
+                        <p>"I've never really done anything that feels distinctly Canadian... I don't really think about my Canadian-ness that often."</p>
+                        <div class="spectrum-stat">9% Not Very/Not At All</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="geographic-identity">
+                <h3>🗺️ "True North" - Geographic Identity as Foundation</h3>
+                <div class="geo-insights">
+                    <div class="geo-quote">
+                        <div class="quote-mark">"</div>
+                        <p><strong>North</strong> I think is the word that feels true because literally we are pretty far north but also that means winter sports like hockey and that also means you know people say Canadians are polite and I've heard a theory that that comes from the cold weather up here and it meaning that you really had to depend on your neighbors back in the pioneer days.</p>
+                        <div class="quote-attribution">- Canadian Survey Participant</div>
+                    </div>
+                    <div class="geo-analysis">
+                        <h4>Why Geography Shapes Values:</h4>
+                        <ul>
+                            <li><strong>Interdependence:</strong> Harsh climate required neighbor cooperation</li>
+                            <li><strong>Seasonality:</strong> Early harvest, winter sports, shared struggles</li>
+                            <li><strong>Vast Space:</strong> Connection across distance builds national identity</li>
+                            <li><strong>Resource Sharing:</strong> Geographic challenges teach collective problem-solving</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Key Findings Summary</h2>
+            
+            <div class="insight-box">
+                <h3>🔥 Top Insights</h3>
+                <p><strong>Strong Canadian Connection:</strong> 81% of respondents feel very or somewhat connected to Canadian identity, with only 9% feeling disconnected.</p>
+                <p><strong>Values Priority:</strong> Freedom and autonomy (62%), equitable systems (47%), and technological innovation (40%) top the list of crucial values for Canada's future.</p>
+                <p><strong>Regional Representation:</strong> Ontario (38%) and Quebec (22%) dominate responses, reflecting Canada's population distribution.</p>
+            </div>
+
+            <div class="question-nav">
+                <button class="question-btn active" onclick="showQuestion('demographics')">Demographics</button>
+                <button class="question-btn" onclick="showQuestion('identity')">Identity Connection</button>
+                <button class="question-btn" onclick="showQuestion('values')">Future Values</button>
+                <button class="question-btn" onclick="showQuestion('divisions')">Social Divisions</button>
+                <button class="question-btn" onclick="showQuestion('connections')">Building Connections</button>
+                <button class="question-btn" onclick="showQuestion('future')">Future Vision</button>
+                <button class="question-btn" onclick="showQuestion('responses')">Sample Responses</button>
+            </div>
+
+            <div id="demographics" class="question-content active">
+                <h3>👥 Demographics Breakdown</h3>
+                
+                <div class="chart-container">
+                    <h4>Q1: Provincial Distribution</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">Ontario</div>
+                            <div class="bar-visual" style="width: 100%"></div>
+                            <div class="bar-value">380 (38%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Quebec</div>
+                            <div class="bar-visual" style="width: 58%"></div>
+                            <div class="bar-value">222 (22%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">British Columbia</div>
+                            <div class="bar-visual" style="width: 37%"></div>
+                            <div class="bar-value">139 (14%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Alberta</div>
+                            <div class="bar-visual" style="width: 31%"></div>
+                            <div class="bar-value">117 (12%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Other Provinces</div>
+                            <div class="bar-visual" style="width: 38%"></div>
+                            <div class="bar-value">143 (14%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4>Q1a: Urban vs Rural Distribution</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">Urban (big city)</div>
+                            <div class="bar-visual" style="width: 100%"></div>
+                            <div class="bar-value">394 (39%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Suburban</div>
+                            <div class="bar-visual" style="width: 94%"></div>
+                            <div class="bar-value">369 (37%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Rural</div>
+                            <div class="bar-visual" style="width: 59%"></div>
+                            <div class="bar-value">233 (23%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Remote/Northern</div>
+                            <div class="bar-visual" style="width: 1%"></div>
+                            <div class="bar-value">5 (1%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4>Q2: How long have you lived in Canada?</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">All my life</div>
+                            <div class="bar-visual" style="width: 100%"></div>
+                            <div class="bar-value">833 (83%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">20+ years</div>
+                            <div class="bar-visual" style="width: 12%"></div>
+                            <div class="bar-value">103 (10%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">11-20 years</div>
+                            <div class="bar-visual" style="width: 3%"></div>
+                            <div class="bar-value">29 (3%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">5-10 years</div>
+                            <div class="bar-visual" style="width: 3%"></div>
+                            <div class="bar-value">22 (2%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Less than 5 years</div>
+                            <div class="bar-visual" style="width: 2%"></div>
+                            <div class="bar-value">14 (1%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4>Q3: Generational Breakdown</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">Boomer (1946-1964)</div>
+                            <div class="bar-visual" style="width: 100%"></div>
+                            <div class="bar-value">334 (33%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Millennial (1981-1996)</div>
+                            <div class="bar-visual" style="width: 92%"></div>
+                            <div class="bar-value">307 (31%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Gen X (1965-1980)</div>
+                            <div class="bar-visual" style="width: 74%"></div>
+                            <div class="bar-value">247 (25%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Gen Z (1997-2012)</div>
+                            <div class="bar-visual" style="width: 27%"></div>
+                            <div class="bar-value">91 (9%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Silent Generation (pre-1946)</div>
+                            <div class="bar-visual" style="width: 7%"></div>
+                            <div class="bar-value">22 (2%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="identity" class="question-content">
+                <h3>🇨🇦 Connection to Canadian Identity</h3>
+                
+                <div class="paradox-highlight" onclick="showParadoxDetail('current')" style="background: linear-gradient(135deg, rgba(232, 83, 74, 0.1), rgba(255, 255, 255, 0.9)); border: 2px dashed #E8534A; padding: 15px; border-radius: 10px; margin: 15px 0; cursor: pointer; transition: all 0.3s ease;">
+                    <strong>🌀 PARADOX ALERT:</strong> 81% feel connected to Canadian identity, yet 62% fear political polarization will tear us apart. <em>Click to explore this paradox →</em>
+                </div>
+                
+                <div class="chart-container">
+                    <h4>Q5: How connected do you feel to a Canadian identity?</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">Very connected</div>
+                            <div class="bar-visual" style="width: 100%"></div>
+                            <div class="bar-value">512 (51%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Somewhat connected</div>
+                            <div class="bar-visual" style="width: 58%"></div>
+                            <div class="bar-value">297 (30%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">A little connected</div>
+                            <div class="bar-visual" style="width: 20%"></div>
+                            <div class="bar-value">104 (10%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Not very connected</div>
+                            <div class="bar-visual" style="width: 10%"></div>
+                            <div class="bar-value">53 (5%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Not at all connected</div>
+                            <div class="bar-visual" style="width: 7%"></div>
+                            <div class="bar-value">35 (4%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <h3>💡 Key Insight</h3>
+                    <p>A strong 81% of Canadians feel very or somewhat connected to Canadian identity, with over half (51%) feeling very connected. This correlation with 83% being lifelong residents suggests that time in Canada strengthens identity connection.</p>
+                </div>
+            </div>
+
+            <div id="values" class="question-content">
+                <h3>⭐ Values Crucial for Canada's Future</h3>
+                
+                <div class="paradox-highlight" onclick="showParadoxDetail('heritage')" style="background: linear-gradient(135deg, rgba(69, 123, 157, 0.1), rgba(255, 255, 255, 0.9)); border: 2px dashed #457B9D; padding: 15px; border-radius: 10px; margin: 15px 0; cursor: pointer; transition: all 0.3s ease;">
+                    <strong>⚖️ HERITAGE-PROGRESS PARADOX:</strong> 29% value Indigenous reconciliation while 40% prioritize technological innovation. How do we honor the past while racing toward the future? <em>Click to explore →</em>
+                </div>
+                
+                <div class="chart-container">
+                    <h4>Q7: Which values do you believe are most crucial for Canada's future?</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">Freedom and autonomy</div>
+                            <div class="bar-visual" style="width: 100%"></div>
+                            <div class="bar-value">619 (62%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Equitable systems</div>
+                            <div class="bar-visual" style="width: 75%"></div>
+                            <div class="bar-value">465 (47%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Technological innovation</div>
+                            <div class="bar-visual" style="width: 65%"></div>
+                            <div class="bar-value">403 (40%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Community care networks</div>
+                            <div class="bar-visual" style="width: 60%"></div>
+                            <div class="bar-value">369 (37%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Environmental regeneration</div>
+                            <div class="bar-visual" style="width: 58%"></div>
+                            <div class="bar-value">356 (36%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Indigenous reconciliation</div>
+                            <div class="bar-visual" style="width: 47%"></div>
+                            <div class="bar-value">290 (29%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Embracing pluralism</div>
+                            <div class="bar-visual" style="width: 22%"></div>
+                            <div class="bar-value">137 (14%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <h3>💡 Values Analysis</h3>
+                    <p><strong>Freedom First:</strong> 62% prioritize freedom and autonomy, reflecting core Canadian values of individual liberty.</p>
+                    <p><strong>Equity Focus:</strong> 47% emphasize equitable systems, showing concern for fairness and social justice.</p>
+                    <p><strong>Innovation Drive:</strong> 40% value technological innovation, indicating forward-thinking priorities.</p>
+                </div>
+            </div>
+
+            <div id="divisions" class="question-content">
+                <h3>⚠️ Divisions That Concern Canadians</h3>
+                
+                <div class="chart-container">
+                    <h4>Q9: Which divisions in Canada concern you most? (Top 2 selections)</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">Political polarization</div>
+                            <div class="bar-visual" style="width: 100%"></div>
+                            <div class="bar-value">616 (62%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Economic inequality</div>
+                            <div class="bar-visual" style="width: 76%"></div>
+                            <div class="bar-value">471 (47%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Resource and regional tensions</div>
+                            <div class="bar-visual" style="width: 53%"></div>
+                            <div class="bar-value">325 (32%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Cultural misunderstanding</div>
+                            <div class="bar-visual" style="width: 26%"></div>
+                            <div class="bar-value">163 (16%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Urban/rural disconnection</div>
+                            <div class="bar-visual" style="width: 25%"></div>
+                            <div class="bar-value">157 (16%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Generational perspectives</div>
+                            <div class="bar-visual" style="width: 17%"></div>
+                            <div class="bar-value">106 (11%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <h3>🚨 Division Concerns</h3>
+                    <p><strong>Political Crisis:</strong> 62% are most concerned about political polarization, reflecting global democratic tensions.</p>
+                    <p><strong>Economic Disparity:</strong> 47% worry about economic inequality, a persistent Canadian challenge.</p>
+                    <p><strong>Regional Tensions:</strong> 32% cite resource and regional tensions, highlighting East-West dynamics.</p>
+                </div>
+            </div>
+
+            <div id="connections" class="question-content">
+                <h3>🤝 Building Stronger Canadian Connections</h3>
+                
+                <div class="chart-container">
+                    <h4>Q10: What builds stronger connections between Canadians? (Top 2 selections)</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">Honest dialogue and listening</div>
+                            <div class="bar-visual" style="width: 100%"></div>
+                            <div class="bar-value">676 (68%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Educational transformation</div>
+                            <div class="bar-visual" style="width: 45%"></div>
+                            <div class="bar-value">307 (31%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Collaborative community projects</div>
+                            <div class="bar-visual" style="width: 41%"></div>
+                            <div class="bar-value">277 (28%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Cultural celebration and exchange</div>
+                            <div class="bar-visual" style="width: 36%"></div>
+                            <div class="bar-value">246 (25%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Newcomer integration</div>
+                            <div class="bar-visual" style="width: 28%"></div>
+                            <div class="bar-value">189 (19%)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">Indigenous-led reconciliation</div>
+                            <div class="bar-visual" style="width: 15%"></div>
+                            <div class="bar-value">99 (10%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <h3>🌟 Connection Solutions</h3>
+                    <p><strong>Communication First:</strong> 68% believe honest dialogue and listening is key to building connections.</p>
+                    <p><strong>Education Priority:</strong> 31% see educational transformation as vital for unity.</p>
+                    <p><strong>Community Action:</strong> 28% emphasize collaborative community projects for stronger bonds.</p>
+                </div>
+            </div>
+
+            <div id="future" class="question-content">
+                <h3>🔮 Future Vision: Hopes and Fears</h3>
+                
+                <div class="chart-container">
+                    <h4>Q12: Sample Hopes for Canada's Future (One Word)</h4>
+                    <div class="samples-grid">
+                        <div class="sample-item">"Unity"</div>
+                        <div class="sample-item">"Prosperity"</div>
+                        <div class="sample-item">"Reconciliation"</div>
+                        <div class="sample-item">"Equality"</div>
+                        <div class="sample-item">"Peace"</div>
+                        <div class="sample-item">"Innovation"</div>
+                        <div class="sample-item">"Inclusion"</div>
+                        <div class="sample-item">"Sustainability"</div>
+                        <div class="sample-item">"Growth"</div>
+                        <div class="sample-item">"Justice"</div>
+                        <div class="sample-item">"Harmony"</div>
+                        <div class="sample-item">"Progress"</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4>Q13: Sample Fears for Canada's Future (One Word)</h4>
+                    <div class="samples-grid">
+                        <div class="sample-item">"Division"</div>
+                        <div class="sample-item">"Polarization"</div>
+                        <div class="sample-item">"Inequality"</div>
+                        <div class="sample-item">"Separation"</div>
+                        <div class="sample-item">"Stagnation"</div>
+                        <div class="sample-item">"Corruption"</div>
+                        <div class="sample-item">"Racism"</div>
+                        <div class="sample-item">"Poverty"</div>
+                        <div class="sample-item">"Extremism"</div>
+                        <div class="sample-item">"Decline"</div>
+                        <div class="sample-item">"Fragmentation"</div>
+                        <div class="sample-item">"Isolation"</div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <h3>🎯 Future Sentiment</h3>
+                    <p><strong>Hopeful Themes:</strong> Unity, reconciliation, equality, and peace dominate positive visions.</p>
+                    <p><strong>Fear Patterns:</strong> Division, polarization, and inequality reflect current anxieties.</p>
+                    <p><strong>Duality:</strong> The contrast reveals Canadians' awareness of both potential and challenges.</p>
+                </div>
+            </div>
+
+            <div id="responses" class="question-content">
+                <h3>💭 Sample Open-Ended Responses</h3>
+                
+                <div class="chart-container">
+                    <h4>Q6: One Word That Feels True When You Hear "Canadian"</h4>
+                    <div class="samples-grid">
+                        <div class="sample-item">"Home"</div>
+                        <div class="sample-item">"Inclusive"</div>
+                        <div class="sample-item">"Polite"</div>
+                        <div class="sample-item">"Diverse"</div>
+                        <div class="sample-item">"Peaceful"</div>
+                        <div class="sample-item">"Caring"</div>
+                        <div class="sample-item">"Cold"</div>
+                        <div class="sample-item">"Kind"</div>
+                        <div class="sample-item">"Free"</div>
+                        <div class="sample-item">"Welcoming"</div>
+                        <div class="sample-item">"Beautiful"</div>
+                        <div class="sample-item">"Strong"</div>
+                        <div class="sample-item">"Proud"</div>
+                        <div class="sample-item">"Apologetic"</div>
+                        <div class="sample-item">"Complex"</div>
+                        <div class="sample-item">"Authentic"</div>
+                        <div class="sample-item">"Resilient"</div>
+                        <div class="sample-item">"Maple"</div>
+                        <div class="sample-item">"Humble"</div>
+                        <div class="sample-item">"Honest"</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4>Q12: Extended Hopes for Canada's Future</h4>
+                    <div class="samples-grid">
+                        <div class="sample-item">"Reconciliation with Indigenous peoples becomes a reality"</div>
+                        <div class="sample-item">"Climate change solutions are implemented effectively"</div>
+                        <div class="sample-item">"Economic prosperity for all regions and people"</div>
+                        <div class="sample-item">"True multiculturalism and acceptance"</div>
+                        <div class="sample-item">"Better healthcare and social support systems"</div>
+                        <div class="sample-item">"Political cooperation across party lines"</div>
+                        <div class="sample-item">"Innovation in technology and sustainability"</div>
+                        <div class="sample-item">"Stronger communities and social connections"</div>
+                        <div class="sample-item">"Educational excellence and accessibility"</div>
+                        <div class="sample-item">"Peace and global leadership"</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h4>Q13: Extended Fears for Canada's Future</h4>
+                    <div class="samples-grid">
+                        <div class="sample-item">"Political polarization tears the country apart"</div>
+                        <div class="sample-item">"Economic inequality becomes insurmountable"</div>
+                        <div class="sample-item">"Climate change impacts devastate the country"</div>
+                        <div class="sample-item">"Loss of national identity and unity"</div>
+                        <div class="sample-item">"Healthcare system collapse"</div>
+                        <div class="sample-item">"Rise of extremism and intolerance"</div>
+                        <div class="sample-item">"Regional separatism and fragmentation"</div>
+                        <div class="sample-item">"Loss of global relevance and influence"</div>
+                        <div class="sample-item">"Economic dependence and decline"</div>
+                        <div class="sample-item">"Social cohesion breakdown"</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="methodology">
+          <h3>📋 Research Methodology & Data Sources</h3>
+          
+          <div class="methodology-diagram" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(168, 218, 220, 0.1)); border: 2px solid #457B9D; border-radius: 15px; padding: 25px; margin: 20px 0; text-align: center;">
+              <h4 style="color: #1D3557; margin-bottom: 20px;">📊 Data Collection & Analysis Pipeline</h4>
+              
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                  <div style="background: rgba(74, 124, 41, 0.1); border: 2px solid #4A7C29; border-radius: 10px; padding: 15px;">
+                      <div style="font-size: 2rem; margin-bottom: 10px;">📝</div>
+                      <h5 style="color: #4A7C29; margin-bottom: 8px;">Survey Collection</h5>
+                      <p style="font-size: 0.9rem; color: #333; margin: 0;">14-question survey<br>1,001 Canadians<br>Mixed methods</p>
+                  </div>
+                  
+                  <div style="background: rgba(69, 123, 157, 0.1); border: 2px solid #457B9D; border-radius: 10px; padding: 15px;">
+                      <div style="font-size: 2rem; margin-bottom: 10px;">🎥</div>
+                      <h5 style="color: #457B9D; margin-bottom: 8px;">Video Analysis</h5>
+                      <p style="font-size: 0.9rem; color: #333; margin: 0;">Video transcription<br>Representative selection<br>Sentiment analysis</p>
+                  </div>
+                  
+                  <div style="background: rgba(29, 53, 87, 0.1); border: 2px solid #1D3557; border-radius: 10px; padding: 15px;">
+                      <div style="font-size: 2rem; margin-bottom: 10px;">🤖</div>
+                      <h5 style="color: #1D3557; margin-bottom: 8px;">AI Processing</h5>
+                      <p style="font-size: 0.9rem; color: #333; margin: 0;">Python scripts<br>AI agents<br>Pattern analysis</p>
+                  </div>
+                  
+                  <div style="background: rgba(232, 83, 74, 0.1); border: 2px solid #E8534A; border-radius: 10px; padding: 15px;">
+                      <div style="font-size: 2rem; margin-bottom: 10px;">🗣️</div>
+                      <h5 style="color: #E8534A; margin-bottom: 8px;">Voice Synthesis</h5>
+                      <p style="font-size: 0.9rem; color: #333; margin: 0;">Brody's voice model<br>First Nations perspective<br>Authentic narration</p>
+                  </div>
+              </div>
+              
+              <div style="margin: 20px 0; padding: 15px; background: rgba(69, 123, 157, 0.1); border-radius: 10px;">
+                  <strong style="color: #1D3557;">Process Flow:</strong> Survey → Video Transcription → AI Analysis → Pattern Recognition → Voice Synthesis → Interactive Dashboard
+              </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+            <div style="background: rgba(255, 255, 255, 0.9); border: 2px solid #457B9D; border-radius: 10px; padding: 20px;">
+                <h4 style="color: #1D3557; margin-bottom: 15px;">🔬 Data Collection & Processing</h4>
+                <p><strong>Survey Design:</strong> 14-question comprehensive survey with 1,001 Canadian respondents across 11 provinces/territories.</p>
+                <p><strong>Response Types:</strong> Multiple choice, open-ended text, video recordings, and demographic profiling.</p>
+                <p><strong>Video Analysis:</strong> Automated transcription with manual verification, thematic categorization into representative personas.</p>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.9); border: 2px solid #457B9D; border-radius: 10px; padding: 20px;">
+                <h4 style="color: #1D3557; margin-bottom: 15px;">🧠 AI-Powered Analysis</h4>
+                <p><strong>Quantitative Processing:</strong> Python scripts for statistical analysis, percentage calculations, and demographic pattern recognition.</p>
+                <p><strong>Qualitative Analysis:</strong> NLP algorithms for sentiment analysis and theme extraction from open-ended responses.</p>
+                <p><strong>Paradox Detection:</strong> Machine learning identification of contradictory patterns revealing Canadian identity tensions.</p>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.9); border: 2px solid #457B9D; border-radius: 10px; padding: 20px;">
+                <h4 style="color: #1D3557; margin-bottom: 15px;">🎙️ Cultural Representation</h4>
+                <p><strong>Indigenous Voice:</strong> Hero video narrated using voice model of Brody, a First Nations Canadian artist, with full consent and collaboration.</p>
+                <p><strong>Ethical Integration:</strong> Respectful representation ensuring Indigenous perspectives guide interpretation of Canadian identity findings.</p>
+                <p><strong>Validation Methods:</strong> Cross-validation between quantitative data, qualitative themes, and video content analysis.</p>
+            </div>
+          </div>
+
+        <div class="insight-box">
+          <h4 style="margin-bottom: 15px; color: #F1FAEE;">🎯 Methodological Innovation</h4>
+          <p style="color: #F1FAEE;"><strong>Hybrid Approach:</strong> Combines traditional survey methodology with AI analysis and culturally authentic voice synthesis.</p>
+          <p style="color: #F1FAEE;"><strong>Indigenous Integration:</strong> Indigenous voice as narrator and interpreter rather than external subject of study.</p>
+          <p style="color: #F1FAEE;"><strong>AI-Human Collaboration:</strong> Computational power enhances human interpretation while maintaining cultural sensitivity.</p>
+        </div>
+
+        <div class="insight-box" style="background: rgba(191, 99, 94, 0.95); color: white; border: 2px solid #B91D47; border-radius: 10px; padding: 20px; margin: 20px 0;">
+          <h4 style="color: #F1FAEE; margin-bottom: 15px;">⚠️ Limitations & Considerations</h4>
+          <p style="color: #F1FAEE;"><strong>Geographic Gaps:</strong> Northwest Territories and Yukon not represented.</p>
+          <p style="color: #F1FAEE;"><strong>Digital Divide:</strong> Online methodology may under-represent limited internet access populations.</p>
+          <p style="color: #F1FAEE;"><strong>Self-Selection Bias:</strong> Participants chose to engage, potentially over-representing strong opinions.</p>
+          <p style="color: #F1FAEE;"><strong>Temporal Context:</strong> Conducted during specific political climate influencing responses.</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        // Create Canadian-themed animated background
+        function createMapleLeaves() {
+            const leavesContainer = document.getElementById('mapleLeaves');
+            const numLeaves = 25;
+            
+            for (let i = 0; i < numLeaves; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'maple-leaf';
+                leaf.textContent = '🍁';
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 15 + 's';
+                leaf.style.animationDuration = (10 + Math.random() * 10) + 's';
+                leavesContainer.appendChild(leaf);
+            }
+        }
+
+        // Create animated stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 50;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 4 + 's';
+                star.style.animationDuration = (3 + Math.random() * 3) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Paradox detail data
+        const paradoxDetails = {
+            foundation: {
+                title: "🏔️ The Foundation Paradox",
+                content: `
+                    <h3>True North Strong & Free: Geography as Unity and Division</h3>
+                    <p><strong>The Paradox:</strong> Our national motto celebrates our northern geography as a source of strength and unity, yet this same vastness creates the physical distances that challenge our connection.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: rgba(74, 124, 41, 0.1); padding: 15px; border-radius: 10px; border: 2px solid #4A7C29;">
+                            <h4 style="color: #4A7C29;">🤝 Unity Through Geography</h4>
+                            <ul style="color: #333;">
+                                <li>Shared climate builds interdependence</li>
+                                <li>"True North" as moral compass</li>
+                                <li>Winter sports create common culture</li>
+                                <li>Harsh conditions foster mutual aid</li>
+                            </ul>
+                        </div>
+                        <div style="background: rgba(232, 83, 74, 0.1); padding: 15px; border-radius: 10px; border: 2px solid #E8534A;">
+                            <h4 style="color: #E8534A;">🌐 Division Through Distance</h4>
+                            <ul style="color: #333;">
+                                <li>5,500km coast-to-coast isolation</li>
+                                <li>Regional resource competitions</li>
+                                <li>East-West vs North-South tensions</li>
+                                <li>Urban-rural cultural divides</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <blockquote style="background: rgba(69, 123, 157, 0.1); padding: 15px; border-left: 4px solid #457B9D; font-style: italic; margin: 20px 0;">
+                        "North I think is the word that feels true because literally we are pretty far north but also that means winter sports like hockey and that also means you know people say Canadians are polite and I've heard a theory that that comes from the cold weather up here and it meaning that you really had to depend on your neighbors back in the pioneer days." - Survey Participant
+                    </blockquote>
+                    
+                    <p><strong>Social Identity Impact:</strong> Geography creates both our strongest shared identity marker and our greatest challenge to maintaining unity across vast distances.</p>
+                `
+            },
+            heritage: {
+                title: "⚖️ The Heritage-Progress Paradox",
+                content: `
+                    <h3>Honoring the Past While Racing Toward the Future</h3>
+                    <p><strong>The Paradox:</strong> Canadians balance valuing Indigenous reconciliation (29%) with technological innovation (40%), creating tension between healing historical wrongs and advancing into the future.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: rgba(29, 53, 87, 0.1); padding: 15px; border-radius: 10px; border: 2px solid #1D3557;">
+                            <h4 style="color: #1D3557;">🏛️ Indigenous Reconciliation (29%)</h4>
+                            <ul style="color: #333;">
+                                <li>Indigenous wisdom and knowledge systems</li>
+                                <li>Truth and reconciliation efforts</li>
+                                <li>Traditional ways of knowing</li>
+                                <li>Historical justice and healing</li>
+                            </ul>
+                        </div>
+                        <div style="background: rgba(69, 123, 157, 0.1); padding: 15px; border-radius: 10px; border: 2px solid #457B9D;">
+                            <h4 style="color: #457B9D;">🚀 Innovation & Progress (40%)</h4>
+                            <ul style="color: #333;">
+                                <li>AI and technology leadership</li>
+                                <li>Clean energy transformation</li>
+                                <li>Modern multicultural evolution</li>
+                                <li>Scientific advancement</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(168, 218, 220, 0.2); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px solid #457B9D;">
+                        <h4 style="color: #1D3557;">🎯 The Resolution</h4>
+                        <p>The compass metaphor reveals how Canadians navigate this tension: Indigenous reconciliation points East toward healing our past, Innovation points West toward our future. True North (our moral compass) guides us to honor both - healing historical wrongs while boldly advancing into the future.</p>
+                    </div>
+                    
+                    <p><strong>Social Identity Impact:</strong> This tension creates opportunities for learning but also drives our unique Canadian innovation - we don't abandon our responsibilities to the past, we build a better future upon them.</p>
+                `
+            },
+            identity: {
+                title: "🌈 The Multiculturalism Paradox",
+                content: `
+                    <h3>Unity Through Diversity: The Impossible Made Possible</h3>
+                    <p><strong>The Paradox:</strong> How do you create a unified national identity while celebrating the distinct identities of 200+ cultural groups? Canada attempts the theoretically impossible.</p>
+                    
+                    <div style="background: rgba(74, 124, 41, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px solid #4A7C29;">
+                        <h4 style="color: #4A7C29;">🎭 The Multiculturalism Success</h4>
+                        <p><strong>14% value "Embracing Pluralism"</strong> - We've created a national identity that includes multiple identities simultaneously. Unlike the traditional social identity theory that predicts in-group favoritism and out-group hostility, Canada has largely transcended this through inclusive nationalism.</p>
+                    </div>
+                    
+                    <div style="background: rgba(232, 83, 74, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px solid #E8534A;">
+                        <h4 style="color: #E8534A;">⚠️ The Identity Strain</h4>
+                        <p><strong>16% worry about "Cultural Misunderstanding"</strong> - The complexity of managing multiple identities creates stress. Some Canadians question: "I actually don't know what it means to be Canadian... there's so much diversity in the country that I'm not sure what our own individual values are any longer."</p>
+                    </div>
+                    
+                    <blockquote style="background: rgba(69, 123, 157, 0.1); padding: 15px; border-left: 4px solid #457B9D; font-style: italic; margin: 20px 0;">
+                        "The Canadian identity is things like compassion and kindness, tolerance, acceptance, looking to help each other out when there's forest fires or floods, and people work together and they help each other. And that's the Canadian identity that I identify with." - Survey Participant
+                    </blockquote>
+                    
+                    <p><strong>Social Identity Resolution:</strong> Rather than weakening social identity, Canadian multiculturalism has created a meta-identity based on shared values (compassion, tolerance, mutual aid) that transcends traditional ethnic boundaries.</p>
+                `
+            },
+            current: {
+                title: "🌊 The Connection-Division Paradox",
+                content: `
+                    <h3>Peak Connection, Peak Concern: The Modern Canadian Dilemma</h3>
+                    <p><strong>The Paradox:</strong> Never have Canadians felt more connected to their national identity (81%), yet never have they been more afraid of division (62% fear political polarization). We are simultaneously at our most unified and most worried about unity.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: rgba(74, 124, 41, 0.1); padding: 15px; border-radius: 10px; border: 2px solid #4A7C29;">
+                            <h4 style="color: #4A7C29;">📈 Record Connection</h4>
+                            <ul style="color: #333;">
+                                <li>81% feel connected to Canadian identity</li>
+                                <li>51% feel VERY connected</li>
+                                <li>68% believe honest dialogue builds bridges</li>
+                                <li>83% are lifelong Canadians</li>
+                            </ul>
+                        </div>
+                        <div style="background: rgba(232, 83, 74, 0.1); padding: 15px; border-radius: 10px; border: 2px solid #E8534A;">
+                            <h4 style="color: #E8534A;">🚨 Record Concern</h4>
+                            <ul style="color: #333;">
+                                <li>62% fear political polarization</li>
+                                <li>47% worry about economic inequality</li>
+                                <li>32% concerned about regional tensions</li>
+                                <li>16% fear cultural misunderstanding</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(185, 29, 71, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px solid #B91D47;">
+                        <h4 style="color: #B91D47;">🧠 Social Identity Theory Explanation</h4>
+                        <p>This paradox perfectly illustrates the "social identity treadmill" - as our in-group (Canadian) identity strengthens, we become more sensitive to threats to group cohesion. Our strong Canadian identity makes us more aware of, and concerned about, forces that could fragment it.</p>
+                        <p><strong>The heightened awareness of our unity makes us hyper-vigilant about threats to that unity.</strong></p>
+                    </div>
+                    
+                    <blockquote style="background: rgba(69, 123, 157, 0.1); padding: 15px; border-left: 4px solid #457B9D; font-style: italic; margin: 20px 0;">
+                        "A wonderful surprise would be no polarization. United for good." - Survey Participant
+                    </blockquote>
+                    
+                    <p><strong>The Canadian Solution:</strong> Unlike other nations facing polarization, Canadians maintain faith in dialogue and reconciliation as solutions, suggesting our social identity is built on cooperation rather than dominance.</p>
+                `
+            }
+        };
+
+        // Show paradox detail modal
+        function showParadoxDetail(paradoxKey) {
+            const modal = document.getElementById('paradoxDetails');
+            const content = document.getElementById('detailContent');
+            const detail = paradoxDetails[paradoxKey];
+            
+            if (detail) {
+                content.innerHTML = `
+                    <button class="close-detail" onclick="closeParadoxDetail()">✕</button>
+                    <div style="clear: both; padding-top: 20px;">
+                        <h2 style="color: #1D3557; margin-bottom: 20px;">${detail.title}</h2>
+                        ${detail.content}
+                    </div>
+                `;
+                
+                // Show modal
+                modal.style.display = 'flex';
+                modal.style.opacity = '0';
+                document.body.style.overflow = 'hidden';
+                
+                // Fade in animation
+                requestAnimationFrame(() => {
+                    modal.style.transition = 'opacity 0.3s ease';
+                    modal.style.opacity = '1';
+                });
+            }
+        }
+
+        // Close paradox detail modal
+        function closeParadoxDetail() {
+            const modal = document.getElementById('paradoxDetails');
+            if (modal.style.display === 'flex') {
+                modal.style.transition = 'opacity 0.3s ease';
+                modal.style.opacity = '0';
+                
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
+        }
+
+        // Close modal when clicking outside content or pressing Escape
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('paradoxDetails');
+            const content = modal.querySelector('.detail-content');
+            
+            if (modal.style.display === 'flex' && 
+                e.target === modal && 
+                !content.contains(e.target)) {
+                closeParadoxDetail();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('paradoxDetails');
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                closeParadoxDetail();
+            }
+        });
+        // Enhanced compass data with Canadian survey results
+        const compassData = {
+            freedom: {
+                name: "Freedom and Autonomy",
+                percentage: 61.8,
+                angle: 0,
+                description: "At True North stands Freedom - the cornerstone of being Strong and Free. This fundamental Canadian right guides 62% of Canadians toward our highest ideals."
+            },
+            equitable: {
+                name: "Equitable Systems",
+                percentage: 46.5,
+                angle: 330,
+                description: "Equitable systems emerge as our collective True North aspiration - ensuring fairness and social justice for all Canadians from sea to shining sea."
+            },
+            community: {
+                name: "Community Care Networks",
+                percentage: 36.9,
+                angle: 30,
+                description: "Community care networks represent our commitment to mutual support and collective wellbeing - the Canadian way of caring for one another."
+            },
+            heritage: {
+                name: "Indigenous Reconciliation",
+                percentage: 29.0,
+                angle: 90,
+                description: "Indigenous reconciliation points eastward toward healing and justice - honoring First Nations, Métis, and Inuit peoples and building a foundation of respect and partnership."
+            },
+            technology: {
+                name: "Innovation and Progress",
+                percentage: 40.3,
+                angle: 270,
+                description: "Innovation and progress pull westward toward the future - representing our forward momentum and adaptation in a rapidly changing world."
+            },
+            polarization: {
+                name: "Political Polarization",
+                percentage: 61.5,
+                angle: 180,
+                description: "Political polarization at our southern border represents the greatest threat we must guard against - the force that divides our nation and weakens our democracy."
+            },
+            inequality: {
+                name: "Economic Inequality",
+                percentage: 47.1,
+                angle: 150,
+                description: "Economic inequality creates concerning divisions that pull us away from prosperity and unity - a significant challenge requiring urgent attention."
+            },
+            division: {
+                name: "Regional Tensions",
+                percentage: 32.5,
+                angle: 210,
+                description: "Regional tensions represent what we must vigilantly guard against - divisions between provinces and territories that threaten our national unity."
+            }
+        };
+
+        // Initialize compass
+        let currentValue = 'freedom';
+        const needle = document.getElementById('compassNeedle');
+
+        // Update compass needle and info
+        function updateCompass(valueKey) {
+            const data = compassData[valueKey];
+            if (!data) return;
+
+            currentValue = valueKey;
+
+            // Update needle rotation
+            needle.style.transform = `translate(-50%, -100%) rotate(${data.angle}deg)`;
+
+            // Update active direction
+            document.querySelectorAll('.compass-direction').forEach(dir => {
+                dir.classList.remove('active');
+            });
+            document.querySelector(`[data-value="${valueKey}"]`).classList.add('active');
+
+            // Update info panel
+            document.getElementById('selectedValue').textContent = data.name;
+            document.getElementById('valuePercentage').textContent = data.percentage + '%';
+            document.getElementById('valueDescription').textContent = data.description;
+        }
+
+        // Add click listeners to compass directions
+        document.querySelectorAll('.compass-direction').forEach(direction => {
+            direction.addEventListener('click', () => {
+                const valueKey = direction.getAttribute('data-value');
+                updateCompass(valueKey);
+            });
+        });
+
+        // Navigation between sections
+        function showQuestion(questionId) {
+            // Hide all question content
+            const contents = document.querySelectorAll('.question-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.question-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected question content
+            document.getElementById(questionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Auto-rotate through compass values
+        let autoRotateInterval;
+        function startAutoRotate() {
+            const values = Object.keys(compassData);
+            let currentIndex = 0;
+            
+            autoRotateInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % values.length;
+                updateCompass(values[currentIndex]);
+            }, 5000);
+        }
+
+        function stopAutoRotate() {
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+            }
+        }
+
+        // Stop auto-rotation on interaction
+        document.querySelectorAll('.compass-direction, .question-btn').forEach(element => {
+            element.addEventListener('click', stopAutoRotate);
+        });
+
+        // Restart auto-rotation after inactivity
+        let inactivityTimer;
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                if (!autoRotateInterval) {
+                    startAutoRotate();
+                }
+            }, 25000);
+        }
+
+        document.addEventListener('click', resetInactivityTimer);
+
+        // Initialize
+        createMapleLeaves();
+        createStars();
+        updateCompass('freedom');
+        startAutoRotate();
+
+        // Add interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced hover effects for sample items
+            const sampleItems = document.querySelectorAll('.sample-item');
+            sampleItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Enhanced bar item interactions
+            const barItems = document.querySelectorAll('.bar-item');
+            barItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const label = this.querySelector('.bar-label').textContent;
+                    const value = this.querySelector('.bar-value').textContent;
+                    alert(`${label}: ${value}\n\nClick OK to close this detail view.`);
+                });
+            });
+
+            // Enhanced video card interactions
+            const videoCards = document.querySelectorAll('.video-card');
+            videoCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+        // Video controls for hero
+        function toggleHeroVideo() {
+            const video = document.querySelector('.hero-video');
+            const toggleText = document.getElementById('videoToggleText');
+            
+            if (video.muted) {
+                video.muted = false;
+                toggleText.innerHTML = '🔇 Mute Video';
+            } else {
+                video.muted = true;
+                toggleText.innerHTML = '🔊 Unmute Video';
+            }
+        }
+    </script>
+</body>
+</html>

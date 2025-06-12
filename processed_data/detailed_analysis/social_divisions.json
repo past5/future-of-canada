@@ -1,0 +1,34 @@
+{
+  "divisions_counts": {
+    "Generational perspectives": 106,
+    "Economic inequality": 471,
+    "Political polarization": 616,
+    "Cultural misunderstanding": 163,
+    "Resource and regional tensions": 325,
+    "Other": 50,
+    "Urban/rural disconnection": 157
+  },
+  "concern_percentages": {
+    "Generational perspectives": 10.589410589410589,
+    "Economic inequality": 47.052947052947054,
+    "Political polarization": 61.53846153846154,
+    "Cultural misunderstanding": 16.283716283716284,
+    "Resource and regional tensions": 32.467532467532465,
+    "Other": 4.9950049950049955,
+    "Urban/rural disconnection": 15.684315684315683
+  },
+  "top_concerns": [
+    [
+      "Political polarization",
+      616
+    ],
+    [
+      "Economic inequality",
+      471
+    ],
+    [
+      "Resource and regional tensions",
+      325
+    ]
+  ]
+}
