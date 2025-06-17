@@ -1254,6 +1254,70 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(185, 29, 71, 0.1));
         }
 
+        .comic-card {
+            border-color: #b36c16;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(185, 29, 71, 0.1));
+        }
+
+        /* Comic Book Styles */
+        .comic-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .comic-viewer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .comic-page {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .comic-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .comic-controls button {
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(69, 123, 157, 0.3);
+        }
+
+        .comic-controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(69, 123, 157, 0.4);
+        }
+
+        .comic-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #comicImage {
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .comic-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .comic-controls button {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+
         .video-header {
             text-align: center;
             margin-bottom: 20px;
@@ -2193,6 +2257,42 @@
                             </div>
                         </div>
                     </div>
+                    <div class="video-card comic-card">
+                      <div class="video-header">
+                          <div class="video-icon">📚</div>
+                          <h4>The Stories <span style="background: #E8534A; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; margin-left: 8px;">NEW!</span></h4>
+                          <p class="video-subtitle">Interactive Comic Journey</p>
+                      </div>
+                      <div class="comic-container">
+                          <div class="comic-viewer">
+                              <div class="comic-page" id="comicPage">
+                                  <img id="comicImage" src="comic-cover.png" alt="Canadian Identity Comic Cover" style="width: 100%; max-width: 400px; height: auto; border-radius: 10px; border: 2px solid rgba(69, 123, 157, 0.3); box-shadow: 0 5px 15px rgba(69, 123, 157, 0.2);">
+                              </div>
+                              <div class="comic-controls">
+                                  <button id="prevPage" onclick="changeComicPage(-1)" style="background: linear-gradient(135deg, #457B9D, #1D3557); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin: 0 5px; font-weight: 600;">← Previous</button>
+                                  <span id="pageCounter" style="color: #1D3557; font-weight: 600; margin: 0 15px;">Page 1 of 12</span>
+                                  <button id="nextPage" onclick="changeComicPage(1)" style="background: linear-gradient(135deg, #457B9D, #1D3557); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin: 0 5px; font-weight: 600;">Next →</button>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="video-content">
+                          <div id="comicInfo" class="quote-section">
+                              <div id="comicTitle" style="font-weight: bold; color: #1D3557; margin-bottom: 10px; text-align: center;">Canadian Identity Survey</div>
+                              <div id="comicDataLine" style="color: #666; font-size: 0.9rem; text-align: center; margin-bottom: 15px;">Interactive Comic Book</div>
+                              <blockquote id="comicQuote" style="text-align: center; font-style: italic;">
+                                  Explore the visual journey of Canadian identity through 10 compelling stories.
+                              </blockquote>
+                          </div>
+                          <div class="video-insights">
+                              <div class="insight-tag">Visual Storytelling</div>
+                              <div class="insight-tag">Survey Data</div>
+                              <div class="insight-tag">Canadian Voices</div>
+                          </div>
+                          <div class="compass-connection">
+                              <strong>Compass Embodiment:</strong> Each story page represents different aspects of our Canadian values compass journey.
+                          </div>
+                      </div>
+                  </div>
                 </div>
             </div>
 
@@ -3194,6 +3294,111 @@
                 toggleText.innerHTML = '🔊 Unmute Video';
             }
         }
+        // Comic Book Data and Controls
+        const comicData = [
+            {
+                image: "comic-cover.png",
+                title: "Canadian Identity Survey",
+                dataLine: "Interactive Comic Book",
+                quote: "Explore the visual journey of Canadian identity through 10 compelling stories."
+            },
+            {
+                image: "comic-page-1.png",
+                title: '“Pipeline Pete” - The Courteous Cowboy',
+                dataLine: "Alberta · Boomer · Very connected",
+                quote: "I feel I'm kind and not aggressive. I love that we say 'sorry' when we interfere with someone."
+            },
+            {
+                image: "comic-page-2.png",
+                title: '“Montreal Melody” - Indie-Rock Idealist',
+                dataLine: "Quebec · Gen X · Very connected",
+                quote: "I love my country, it's full of good people … Love the major cities, music, personalities."
+            },
+            {
+                image: "comic-page-3.png",
+                title: '“Harbour Hannah” - East-Coast Optimist',
+                dataLine: "Nova Scotia · Gen X · Somewhat connected",
+                quote: "Seeing what's happening around the world and knowing I'm safe here makes me proud."
+            },
+            {
+                image: "comic-page-4.png",
+                title: '“Trapper Tom” - Prairie Elder & Land-Keeper',
+                dataLine: "Manitoba · Boomer · Very connected",
+                quote: "I was born on the land … my parents camped, hunted and fished all summers."
+            },
+            {
+                image: "comic-page-5.png",
+                title: '“Freedom Finley” - Gen Z Civic Hacker',
+                dataLine: "Alberta · Gen Z · Very connected",
+                quote: "Respect for diversity is respected by the Canadian state - that matters to me."
+            },
+            {
+                image: "comic-page-6.png",
+                title: '“Unity Uma” - New-Canadian Connector',
+                dataLine: "Ontario · Millennial · Very connected (immigrant perspective)",
+                quote: "Canada is very multicultural - that's what makes me Canadian."
+            },
+            {
+                image: "comic-page-7.png",
+                title: '“Budget Ben” - Tax-Burdened Home-Seeker',
+                dataLine: "Ontario · Millennial · Somewhat connected",
+                quote: "Lower personal income taxes, affordable housing!"
+            },
+            {
+                image: "comic-page-8.png",
+                title: '"Global Grace” - Prairie Growth Champ"',
+                dataLine: "Manitoba · Millennial · Very connected",
+                quote: "Grow the economy and become a huge player on the global stage."
+            },
+            {
+                image: "comic-page-9.png",
+                title: '“Debt-Free Denise” - Fiscal Guardian',
+                dataLine: "Quebec · Gen X · Very connected",
+                quote: "Payed off national debt. (future vision)"
+            },
+            {
+                image: "comic-page-10.png",
+                title: '“West-Coast Willow” - Competitive Dreamer',
+                dataLine: "B.C. · Gen X · Very connected",
+                quote: "Surpassed the USA as a leader."
+            }
+        ];
+
+        let currentComicPage = 0;
+
+        function updateComicPage() {
+            const pageData = comicData[currentComicPage];
+            document.getElementById('comicImage').src = pageData.image;
+            document.getElementById('comicImage').alt = pageData.title;
+            document.getElementById('comicTitle').textContent = pageData.title;
+            document.getElementById('comicDataLine').textContent = pageData.dataLine;
+            document.getElementById('comicQuote').textContent = pageData.quote;
+            document.getElementById('pageCounter').textContent = `Page ${currentComicPage + 1} of ${comicData.length}`;
+            
+            // Update button states
+            document.getElementById('prevPage').disabled = currentComicPage === 0;
+            document.getElementById('nextPage').disabled = currentComicPage === comicData.length - 1;
+        }
+
+        function changeComicPage(direction) {
+            const newPage = currentComicPage + direction;
+            if (newPage >= 0 && newPage < comicData.length) {
+                // Fade out
+                document.getElementById('comicImage').style.opacity = '0.5';
+                
+                setTimeout(() => {
+                    currentComicPage = newPage;
+                    updateComicPage();
+                    // Fade in
+                    document.getElementById('comicImage').style.opacity = '1';
+                }, 150);
+            }
+        }
+
+        // Initialize comic on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateComicPage();
+        });
     </script>
     <footer class="site-footer">
       © 2025 Past 5 Solutions Inc. •
